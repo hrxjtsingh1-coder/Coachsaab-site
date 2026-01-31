@@ -3,161 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachSaab | Future of Tech</title>
+    <title>CoachSaab | The Future of Tech</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. DESIGN VARIABLES --- */
+        /* --- 1. CONFIGURATION --- */
         :root {
-            --bg-dark: #050505;
-            --bg-card: #0f0f0f; /* Slightly lighter than bg */
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --accent-gold: #FFD700;
-            --accent-blue: #3b82f6;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: 1px solid rgba(255, 255, 255, 0.08);
-            --glow: 0 0 20px rgba(255, 215, 0, 0.1);
+            --bg-deep: #030304;
+            --bg-surface: #0e0e10;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --brand-gold: #FFD700;
+            --brand-glow: rgba(255, 215, 0, 0.15);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --glass: rgba(20, 20, 20, 0.6);
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* --- 2. GLOBAL STYLES & ANIMATIONS --- */
+        /* --- 2. CORE SETUP --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
             font-family: 'Outfit', sans-serif;
-            line-height: 1.6;
             overflow-x: hidden;
-            /* Subtle grid background pattern */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+            /* Subtle Grid Background */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%), 
+                radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.05), transparent 25%);
         }
 
-        /* Smooth Reveal Animation Class */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 3. ANIMATED LOGO & HEADER --- */
+        /* --- 3. UI COMPONENTS --- */
+        
+        /* Animated Navigation */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 5%;
-            border-bottom: var(--border);
-            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 100;
-            background: rgba(5, 5, 5, 0.85);
+            z-index: 999;
+            backdrop-filter: blur(16px);
+            background: rgba(3, 3, 4, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
             font-weight: 800;
+            font-size: 1.8rem;
             letter-spacing: -1px;
-            /* Animated Gradient Text */
-            background: linear-gradient(-45deg, #fff, #a0a0a0, #FFD700, #fff);
-            background-size: 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 4s ease-in-out infinite;
-        }
-
-        @keyframes shine {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { 
-            font-size: 0.95rem; 
-            color: var(--text-muted); 
-            font-weight: 500;
-            text-decoration: none;
-            transition: 0.3s;
+            color: #fff;
             position: relative;
         }
         
-        /* Underline hover effect */
+        .logo span { color: var(--brand-gold); }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #fff; }
+        
+        /* Glowing Underline Effect */
         .nav-links a::after {
             content: '';
             position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
+            bottom: -6px;
             left: 0;
-            background-color: var(--accent-gold);
-            transition: width 0.3s;
+            width: 0%;
+            height: 2px;
+            background: var(--brand-gold);
+            transition: width 0.3s var(--ease-out);
+            box-shadow: 0 0 10px var(--brand-gold);
         }
-        .nav-links a:hover { color: #fff; }
         .nav-links a:hover::after { width: 100%; }
 
-        /* --- 4. HERO SECTION --- */
+        /* --- 4. HERO SECTION (Aurora Effect) --- */
         .hero {
+            position: relative;
             text-align: center;
-            padding: 100px 20px;
-            max-width: 900px;
-            margin: 0 auto;
+            padding: 120px 20px 80px;
+            overflow: hidden;
         }
 
         .hero h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4.5rem); /* Responsive text */
-            line-height: 1.1;
-            margin-bottom: 25px;
-            background: linear-gradient(to bottom, #ffffff, #666666);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            line-height: 1.05;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: fadeUp 1s var(--ease-out) forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
         .hero p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
             max-width: 600px;
-            margin: 0 auto 35px;
+            margin: 0 auto 40px;
+            animation: fadeUp 1s var(--ease-out) 0.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .cta-btn {
+        .hero-btn {
+            padding: 16px 42px;
             background: #fff;
             color: #000;
-            padding: 14px 36px;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 700;
             text-decoration: none;
             display: inline-block;
-            transition: transform 0.2s;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            animation: fadeUp 1s var(--ease-out) 0.4s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
-        .cta-btn:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        .hero-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255,255,255,0.3);
         }
 
-        /* --- 5. 3D CARD LAYOUT --- */
+        /* --- 5. 3D CARD SYSTEM --- */
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 20px;
-        }
-
-        .grid-layout {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 50px;
         }
 
         .blog-grid {
@@ -166,260 +156,297 @@
             gap: 30px;
         }
 
-        .card {
-            background: var(--bg-card);
-            border: var(--border);
-            border-radius: 16px;
+        /* The 3D Card Container */
+        .tilt-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
             overflow: hidden;
             position: relative;
-            /* 3D Perspective settings */
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            transform-style: preserve-3d;
-            perspective: 1000px;
+            transform-style: preserve-3d; /* Critical for 3D */
+            transform: perspective(1000px);
+            transition: border-color 0.3s;
+            cursor: pointer;
         }
 
-        /* The 3D Hover Effect */
-        .card:hover {
-            transform: translateY(-10px) rotateX(2deg);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        .tilt-card:hover {
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* Inner Content floating in 3D */
+        .tilt-inner {
+            transform-style: preserve-3d;
+            transform: translateZ(20px);
+        }
+
+        .card-img-wrap {
+            height: 220px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-light);
         }
         
-        .card:hover .card-img {
-            transform: scale(1.05); /* Zoom image slightly */
-        }
-
-        .card-img-wrapper {
-            overflow: hidden;
-            height: 200px;
-        }
-
         .card-img {
             width: 100%;
             height: 100%;
-            background-color: #222;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s var(--ease-out);
         }
 
-        .card-content { padding: 24px; }
+        .tilt-card:hover .card-img {
+            transform: scale(1.1);
+        }
 
-        .tag {
+        .card-content { padding: 25px; }
+
+        .category {
             font-size: 0.75rem;
-            color: var(--accent-gold);
+            color: var(--brand-gold);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             font-weight: 700;
             margin-bottom: 12px;
             display: block;
+            text-shadow: 0 0 15px var(--brand-glow);
         }
 
-        .card h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 12px;
+        .tilt-card h3 {
+            font-family: 'Space Grotesk';
+            font-size: 1.6rem;
             line-height: 1.2;
+            margin-bottom: 12px;
             color: #fff;
         }
 
-        .card p {
+        .tilt-card p {
+            color: var(--text-secondary);
             font-size: 0.95rem;
-            color: var(--text-muted);
+            line-height: 1.6;
         }
 
-        /* --- SIDEBAR & PROFILE --- */
-        .sidebar-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+        /* --- 6. SIDEBAR & PROFILE --- */
+        aside {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid var(--border-light);
             padding: 30px;
-            border-radius: 16px;
-            border: var(--border);
-            margin-bottom: 30px;
+            border-radius: 20px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
         }
 
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            background: #333;
-            border-radius: 50%;
+        /* PROFILE PICTURE STYLING */
+        .avatar-container {
+            width: 110px;
+            height: 110px;
             margin: 0 auto 20px;
-            border: 2px solid var(--accent-gold);
-            padding: 3px; /* Gap between border and image */
+            position: relative;
         }
         
-        .profile-pic img {
+        .avatar-ring {
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--brand-gold), transparent, var(--brand-gold));
+            animation: spin 4s linear infinite;
+            z-index: 1;
+        }
+
+        .avatar-img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
+            position: relative;
+            z-index: 2;
+            border: 4px solid var(--bg-surface);
+            background: #222;
         }
 
-        /* --- ADS & FOOTER --- */
-        .ad-space {
-            background: repeating-linear-gradient(
-                45deg,
-                #111,
-                #111 10px,
-                #151515 10px,
-                #151515 20px
-            );
-            border: 1px dashed #444;
-            color: #666;
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- 7. UTILS & ADS --- */
+        .ad-slot {
+            width: 100%;
+            background: repeating-linear-gradient(45deg, #111, #111 10px, #161616 10px, #161616 20px);
+            border: 1px dashed #333;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #555;
             font-size: 0.8rem;
-            border-radius: 12px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ad-slot::after {
+            content: 'AD SPACE';
+            z-index: 2;
         }
 
         footer {
-            border-top: var(--border);
+            border-top: 1px solid var(--border-light);
             text-align: center;
-            padding: 60px 20px;
-            margin-top: 100px;
-            color: var(--text-muted);
+            padding: 60px 0;
+            margin-top: 80px;
+            color: var(--text-secondary);
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .grid-layout { grid-template-columns: 1fr; }
-            .nav-links { display: none; } /* Hidden on mobile for now */
-            .hero h1 { font-size: 2.8rem; }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsive */
+        @media(max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">CoachSaab</div> 
-        
+        <div class="logo">Coach<span>Saab.</span></div>
         <div class="nav-links">
             <a href="#">Home</a>
             <a href="#">AI Tools</a>
-            <a href="#">Business</a>
-            <a href="#">About</a>
+            <a href="#">Tutorials</a>
+            <a href="#">Reviews</a>
         </div>
-        <a href="#" class="cta-btn" style="padding: 10px 24px; font-size: 0.9rem;">Join Now</a>
+        <a href="#" class="hero-btn" style="padding: 10px 24px; font-size: 0.9rem; animation: none; opacity: 1; transform: none;">Subscribe</a>
     </nav>
 
-    <div class="ad-space reveal" style="width: 100%; max-width: 728px; height: 90px; margin: 40px auto;">
-        AD SPACE (728x90)
-    </div>
+    <div class="ad-slot" style="max-width: 728px; height: 90px; margin: 40px auto;"></div>
 
-    <section class="hero reveal">
-        <h1>Unlocking the Future<br>of AI & Tech.</h1>
-        <p>Premium insights for the modern developer. No fluff, just actionable tech strategies.</p>
-        <a href="#content" class="cta-btn">Start Reading</a>
-    </section>
+    <header class="hero">
+        <h1>Unlocking the Future<br>of AI & Technology.</h1>
+        <p>Premium insights, detailed guides, and no-nonsense reviews for the modern developer.</p>
+        <a href="#posts" class="hero-btn">Start Reading</a>
+    </header>
 
-    <div class="container" id="content">
-        <div class="grid-layout">
+    <div class="container" id="posts">
+        
+        <div class="blog-grid">
             
-            <div class="blog-grid">
-                
-                <article class="card reveal">
-                    <div class="card-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop&q=60" alt="AI" class="card-img">
-                    </div>
-                    <div class="card-content">
-                        <span class="tag">AI News</span>
-                        <h3>GPT-5: The Technical Breakdown</h3>
-                        <p>Separating the hype from reality. What developers actually need to know about the next model.</p>
-                    </div>
-                </article>
-
-                <article class="card reveal">
-                    <div class="card-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop&q=60" alt="Cyber" class="card-img">
-                    </div>
-                    <div class="card-content">
-                        <span class="tag">Security</span>
-                        <h3>The Death of Passwords</h3>
-                        <p>Biometrics and passkeys are taking over. Is your app ready for the transition?</p>
-                    </div>
-                </article>
-
-                <div class="ad-space reveal" style="grid-column: 1/-1; height: 120px;">
-                    AD SPACE (In-Feed)
+            <article class="tilt-card" data-tilt>
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&auto=format&fit=crop" class="card-img" alt="AI">
                 </div>
-
-                <article class="card reveal">
-                    <div class="card-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&auto=format&fit=crop&q=60" alt="Code" class="card-img">
-                    </div>
-                    <div class="card-content">
-                        <span class="tag">Coding</span>
-                        <h3>Python vs Rust in 2026</h3>
-                        <p>Performance benchmarks for high-load AI applications.</p>
-                    </div>
-                </article>
-
-                <article class="card reveal">
-                    <div class="card-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=60" alt="Hacking" class="card-img">
-                    </div>
-                    <div class="card-content">
-                        <span class="tag">Hacking</span>
-                        <h3>Ethical Hacking 101</h3>
-                        <p>How to start your career in bug bounties today.</p>
-                    </div>
-                </article>
-
-            </div>
-
-            <aside>
-                <div class="sidebar-card reveal">
-                    <div class="profile-pic">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=60" alt="Coach Saab">
-                    </div>
-                    <h3 style="font-family:'Space Grotesk'; margin-bottom:5px;">Coach Saab</h3>
-                    <p style="font-size:0.9rem; color:var(--text-muted);">AI Researcher & Tech Lead. Simplifying the future.</p>
-                    <a href="#" style="color:var(--accent-gold); font-size:0.85rem; margin-top:10px; display:inline-block;">@CoachSaab</a>
+                <div class="card-content">
+                    <span class="category">AI News</span>
+                    <h3>GPT-5 Technical Breakdown</h3>
+                    <p>We analyzed the leaked architecture papers. Here is what developers can realistically expect in Q3.</p>
                 </div>
+            </article>
 
-                <div class="ad-space reveal" style="width: 100%; height: 300px;">
-                    AD SPACE (Sidebar)
+            <article class="tilt-card" data-tilt>
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop" class="card-img" alt="Security">
                 </div>
+                <div class="card-content">
+                    <span class="category">Security</span>
+                    <h3>The Death of Passwords</h3>
+                    <p>Passkeys are now mandatory for SaaS. A complete implementation guide for auth systems.</p>
+                </div>
+            </article>
 
-                <div class="sidebar-card reveal" style="text-align:left; margin-top:30px;">
-                    <h4 style="margin-bottom:15px; color:#fff;">Trending Topics</h4>
-                    <ul style="color:var(--text-muted); font-size:0.9rem; line-height:2;">
-                        <li># Artificial Intelligence</li>
-                        <li># Web Development</li>
-                        <li># Crypto & Web3</li>
-                        <li># Startup Growth</li>
-                    </ul>
+            <div class="ad-slot" style="grid-column: 1/-1; height: 140px;">IN-FEED ADVERTISEMENT</div>
+
+            <article class="tilt-card" data-tilt>
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&auto=format&fit=crop" class="card-img" alt="Code">
                 </div>
-            </aside>
+                <div class="card-content">
+                    <span class="category">DevOps</span>
+                    <h3>Rust vs. Python in 2026</h3>
+                    <p>Why 40% of AI startups are rewriting their inference engines in Rust this year.</p>
+                </div>
+            </article>
+
+            <article class="tilt-card" data-tilt>
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop" class="card-img" alt="Hacking">
+                </div>
+                <div class="card-content">
+                    <span class="category">Career</span>
+                    <h3>Ethical Hacking 101</h3>
+                    <p>From script kiddie to bug bounty hunter. A roadmap for earning your first payout.</p>
+                </div>
+            </article>
 
         </div>
+
+        <aside>
+            
+            <div class="profile-card">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" alt="Coach Saab" class="avatar-img">
+                </div>
+                
+                <h3 style="font-family:'Space Grotesk'; color:#fff; margin-bottom: 5px;">Coach Saab</h3>
+                <p style="color:var(--text-secondary); font-size:0.9rem;">Tech Lead & Researcher</p>
+                
+                <div style="margin-top: 15px; display:flex; gap:10px; justify-content:center;">
+                    <a href="#" style="color:#fff; opacity:0.7;">𝕏</a>
+                    <a href="#" style="color:#fff; opacity:0.7;">IG</a>
+                    <a href="#" style="color:#fff; opacity:0.7;">YT</a>
+                </div>
+            </div>
+            <div class="ad-slot" style="height: 300px; margin-bottom: 30px;">SIDEBAR AD</div>
+
+            <div class="profile-card" style="text-align: left; padding: 25px;">
+                <h4 style="color:#fff; margin-bottom:15px;">Trending Tags</h4>
+                <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                    <span style="background:#222; padding:5px 10px; border-radius:5px; font-size:0.8rem; color:#888;">#AI</span>
+                    <span style="background:#222; padding:5px 10px; border-radius:5px; font-size:0.8rem; color:#888;">#Crypto</span>
+                    <span style="background:#222; padding:5px 10px; border-radius:5px; font-size:0.8rem; color:#888;">#SaaS</span>
+                </div>
+            </div>
+
+        </aside>
+
     </div>
 
     <footer>
         <h2 style="font-family:'Space Grotesk'; color:#fff; margin-bottom:20px;">CoachSaab.</h2>
-        <p>&copy; 2026 CoachSaab. All Rights Reserved.</p>
-        <p style="margin-top:10px; opacity: 0.5;">Privacy Policy | Terms of Service</p>
+        <p>&copy; 2026 CoachSaab Media. All Rights Reserved.</p>
+        <p style="margin-top:10px; opacity: 0.5; font-size: 0.85rem;">Privacy Policy | Terms | Contact</p>
     </footer>
 
     <script>
-        // Simple script to trigger animations when elements scroll into view
-        const revealElements = document.querySelectorAll('.reveal');
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll(".tilt-card");
 
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            const elementVisible = 100;
+            cards.forEach((card) => {
+                card.addEventListener("mousemove", (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
 
-            revealElements.forEach((reveal) => {
-                const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveal.classList.add('active');
-                }
+                    // Calculate rotation based on mouse position
+                    // We rotate inversely to create the "looking at" effect
+                    const xRotation = -1 * ((y - rect.height / 2) / 10); 
+                    const yRotation = (x - rect.width / 2) / 10;
+
+                    // Apply the 3D transformation
+                    card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) scale(1.02)`;
+                });
+
+                // Reset when mouse leaves
+                card.addEventListener("mouseleave", () => {
+                    card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
+                });
             });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        // Trigger once on load
-        revealOnScroll();
+        });
     </script>
 
 </body>
