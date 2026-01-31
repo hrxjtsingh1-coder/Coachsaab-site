@@ -10,36 +10,136 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. SETTINGS --- */
+        /* --- 1. SETTINGS & VARIABLES --- */
         :root {
             --bg-deep: #050505;
             --bg-card: #0e0e0e;
             --text-main: #ffffff;
             --text-muted: #9ca3af;
             --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --ease-lux: cubic-bezier(0.215, 0.61, 0.355, 1); /* Premium "Apple-style" easing */
         }
 
         /* --- 2. BASE STYLES --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
+        html { scroll-behavior: smooth; }
+
         body {
             background-color: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Outfit', sans-serif;
             overflow-x: hidden;
+            position: relative;
+            /* Ensures scrollbar looks dark on supported browsers */
+            color-scheme: dark; 
         }
 
-        /* Background Noise */
+        /* CINEMATIC NOISE TEXTURE (The "Premium" Touch) */
         .noise {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            opacity: 0.05;
+            opacity: 0.04;
             z-index: 1;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        /* --- 3. HERO SECTION --- */
+        /* SCROLL PROGRESS INDICATOR */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, var(--gold), #fff);
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* --- 3. FAILSAFE PRELOADER (CSS ONLY) --- */
+        /* This guarantees the site loads even if JS fails */
+        .preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: dissolve 0.8s var(--ease-lux) 2.2s forwards;
+            pointer-events: all;
+        }
+
+        .preloader-text {
+            font-family: 'Space Grotesk';
+            font-size: 2rem;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            position: relative;
+        }
+
+        .preloader-text::after {
+            content: 'CoachSaab';
+            position: absolute;
+            left: 0; top: 0; width: 0%; height: 100%;
+            color: #fff;
+            overflow: hidden;
+            border-right: 2px solid var(--gold);
+            animation: textFill 1.8s var(--ease-lux) forwards;
+        }
+
+        @keyframes textFill { to { width: 100%; } }
+        @keyframes dissolve { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+        /* --- 4. NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 5%;
+            background: rgba(5,5,5,0.85); /* Glass effect */
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk';
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            /* Animated Shine */
+            background: linear-gradient(90deg, #fff, #999, var(--gold), #fff);
+            background-size: 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: goldShine 6s linear infinite;
+        }
+
+        @keyframes goldShine { to { background-position: 300%; } }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0; width: 0%; height: 1px;
+            background: var(--gold);
+            transition: width 0.3s var(--ease-lux);
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- 5. HERO SECTION --- */
         .hero {
             position: relative;
             height: 85vh;
@@ -49,6 +149,14 @@
             align-items: center;
             text-align: center;
             z-index: 2;
+            overflow: hidden;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.6;
         }
 
         .hero h1 {
@@ -56,8 +164,8 @@
             font-size: clamp(3rem, 7vw, 6rem);
             line-height: 1.1;
             margin-bottom: 20px;
-            /* Simple Animation that runs immediately */
-            animation: slideUp 1s ease-out forwards;
+            opacity: 0; /* Hidden for animation */
+            animation: fadeInUp 1s var(--ease-lux) 2.4s forwards;
         }
 
         .hero p {
@@ -65,56 +173,33 @@
             color: var(--text-muted);
             max-width: 600px;
             margin: 0 auto 40px;
-            animation: slideUp 1s ease-out 0.2s forwards;
+            opacity: 0;
+            animation: fadeInUp 1s var(--ease-lux) 2.6s forwards;
         }
 
         .hero-btn {
-            padding: 16px 40px;
+            padding: 16px 42px;
             background: #fff;
             color: #000;
             border-radius: 50px;
             font-weight: 700;
             text-decoration: none;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             display: inline-block;
+            opacity: 0;
+            animation: fadeInUp 1s var(--ease-lux) 2.8s forwards;
         }
-        .hero-btn:hover { transform: scale(1.05); }
+        .hero-btn:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
 
-        @keyframes slideUp {
+        @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- 4. NAVIGATION --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 5%;
-            background: rgba(5,5,5,0.9);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-family: 'Space Grotesk';
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #fff;
-        }
-        .logo span { color: var(--gold); }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            margin-left: 30px;
-            font-size: 0.95rem;
-        }
-        .nav-links a:hover { color: #fff; }
-
-        /* --- 5. CONTENT GRID --- */
+        /* --- 6. CONTENT GRID --- */
         .container {
             max-width: 1300px;
             margin: 0 auto;
@@ -126,7 +211,7 @@
             z-index: 2;
         }
 
-        /* --- 6. BLOG CARDS (VISIBLE BY DEFAULT) --- */
+        /* --- 7. BLOG CARDS --- */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -135,105 +220,143 @@
 
         .card {
             background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s, border-color 0.3s;
-            /* NO OPACITY: 0 HERE! */
+            transition: transform 0.4s var(--ease-lux), border-color 0.4s;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            
+            /* Scroll Reveal State */
+            opacity: 0; 
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s var(--ease-lux);
         }
+        
+        .card.visible { opacity: 1; transform: translateY(0); }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .card-img-wrap {
             height: 220px;
             overflow: hidden;
             background: #111;
+            position: relative;
         }
 
         .card-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s;
+            transition: transform 0.8s var(--ease-lux);
         }
-        .card:hover .card-img { transform: scale(1.05); }
+        .card:hover .card-img { transform: scale(1.08); }
 
-        .card-content { padding: 25px; }
-        .tag { color: var(--gold); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .card h3 { font-family: 'Space Grotesk'; font-size: 1.4rem; color: #fff; margin-bottom: 10px; }
-        .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+        .card-content { padding: 28px; }
+        
+        .tag { 
+            color: var(--gold); 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px;
+            margin-bottom: 12px; 
+            display: block; 
+        }
+        
+        .card h3 { font-family: 'Space Grotesk'; font-size: 1.5rem; color: #fff; margin-bottom: 12px; line-height: 1.3; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
 
-        /* --- 7. SIDEBAR & PROFILE PIC --- */
+        /* --- 8. SIDEBAR --- */
+        aside { position: sticky; top: 120px; height: fit-content; }
+
         .profile-widget {
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 30px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(0,0,0,0));
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 35px;
             border-radius: 20px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease 0.2s, transform 0.8s var(--ease-lux) 0.2s;
         }
+        .profile-widget.visible { opacity: 1; transform: translateY(0); }
 
         .avatar-wrap {
-            width: 120px;
-            height: 120px;
+            width: 110px; height: 110px;
             margin: 0 auto 20px;
             border-radius: 50%;
             padding: 3px;
-            background: linear-gradient(135deg, var(--gold), #333);
+            background: linear-gradient(135deg, var(--gold), transparent);
         }
 
         .avatar-img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid var(--bg-deep);
             background-color: #222;
         }
 
+        .social-links { margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
+        .social-icon { color: #fff; opacity: 0.6; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .social-icon:hover { opacity: 1; color: var(--gold); }
+
         .ad-space {
-            background: #111;
+            background: repeating-linear-gradient(45deg, #111, #111 10px, #151515 10px, #151515 20px);
             border: 1px dashed #333;
             color: #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 12px;
             font-size: 0.8rem;
+            transition: border-color 0.3s;
         }
+        .ad-space:hover { border-color: #555; }
 
         footer {
             text-align: center;
-            padding: 60px 0;
+            padding: 80px 0;
             color: var(--text-muted);
             border-top: 1px solid rgba(255,255,255,0.05);
-            margin-top: 60px;
+            margin-top: 80px;
+            opacity: 0.7;
         }
 
         /* Mobile Fix */
         @media(max-width: 900px) {
             .container { grid-template-columns: 1fr; }
             .nav-links { display: none; }
+            /* Disable tilt on mobile for performance */
+            .card { transform: none !important; }
         }
     </style>
 </head>
 <body>
 
+    <div class="preloader">
+        <div class="preloader-text">CoachSaab</div>
+    </div>
+
     <div class="noise"></div>
+    <div class="scroll-progress" id="progressBar"></div>
 
     <nav>
         <div class="logo">Coach<span>Saab.</span></div>
         <div class="nav-links">
             <a href="#">Home</a>
-            <a href="#">News</a>
+            <a href="#">Analysis</a>
             <a href="#">Reviews</a>
             <a href="#">Contact</a>
         </div>
     </nav>
 
     <header class="hero">
+        <canvas id="particle-canvas"></canvas>
         <h1>Future Tech &<br>AI Insights.</h1>
         <p>Premium guides for the next generation of builders.</p>
         <a href="#content" class="hero-btn">Start Reading</a>
@@ -250,7 +373,7 @@
                 <div class="card-content">
                     <span class="tag">Analysis</span>
                     <h3>GPT-5 Architecture</h3>
-                    <p>Deep dive into the leaked specs. Multi-modal reasoning and what it means for you.</p>
+                    <p>Deep dive into the leaked specs. Multi-modal reasoning and what it means for your backend infrastructure.</p>
                 </div>
             </article>
 
@@ -261,12 +384,12 @@
                 <div class="card-content">
                     <span class="tag">Markets</span>
                     <h3>DeFi vs TradFi</h3>
-                    <p>Institutional capital is moving into decentralized protocols this quarter.</p>
+                    <p>Institutional capital is moving into decentralized protocols this quarter. Here is where the money flows.</p>
                 </div>
             </article>
 
-            <div class="ad-space" style="grid-column: 1/-1; height: 100px;">
-                ADVERTISEMENT SPACE
+            <div class="ad-space" style="grid-column: 1/-1; height: 120px;">
+                PREMIUM AD PLACEMENT
             </div>
 
             <article class="card">
@@ -276,7 +399,18 @@
                 <div class="card-content">
                     <span class="tag">DevOps</span>
                     <h3>Rust in Production</h3>
-                    <p>Why we rewrote our entire inference engine in Rust to save costs.</p>
+                    <p>Why we rewrote our entire inference engine in Rust to save costs and reduce memory leaks.</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&fit=crop" class="card-img" alt="Security">
+                </div>
+                <div class="card-content">
+                    <span class="tag">Security</span>
+                    <h3>Zero Trust Security</h3>
+                    <p>The enterprise guide to securing internal tools without reliance on VPNs or legacy firewalls.</p>
                 </div>
             </article>
         </div>
@@ -287,13 +421,18 @@
                     <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" 
                          alt="Coach Saab" 
                          class="avatar-img"
-                         onerror="this.src='https://ui-avatars.com/api/?name=Coach+Saab&background=D4AF37&color=fff'">
+                         onerror="this.src='https://ui-avatars.com/api/?name=Coach+Saab&background=D4AF37&color=fff&size=128'">
                 </div>
                 <h3 style="font-family:'Space Grotesk'; color:#fff; margin-bottom: 5px;">Coach Saab</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem;">Lead Futurist</p>
+                <p style="color:var(--text-muted); font-size:0.9rem;">Lead Futurist & Researcher</p>
+                
+                <div class="social-links">
+                    <a href="#" class="social-icon">TWITTER</a>
+                    <a href="#" class="social-icon">GITHUB</a>
+                </div>
             </div>
 
-            <div class="ad-space" style="height: 250px; margin-top: 30px;">
+            <div class="ad-space" style="height: 300px; margin-top: 30px;">
                 SIDEBAR AD (300x250)
             </div>
         </aside>
@@ -301,8 +440,115 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 CoachSaab Media.</p>
+        <h2 style="font-family:'Space Grotesk'; color:#fff; margin-bottom: 15px;">CoachSaab.</h2>
+        <p>&copy; 2026 CoachSaab Media. Built for Performance.</p>
     </footer>
 
+    <script>
+        // 1. SCROLL REVEAL OBSERVER
+        // This watches for elements entering the screen and adds the 'visible' class
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 }); // Trigger when 10% visible
+
+        // Observe cards and sidebar
+        document.querySelectorAll('.card, .profile-widget').forEach(el => observer.observe(el));
+
+
+        // 2. SCROLL PROGRESS BAR
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+            
+            // Parallax Hero Effect
+            const heroContent = document.querySelector('.hero h1');
+            if(window.scrollY < window.innerHeight) {
+                heroContent.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+            }
+        });
+
+
+        // 3. 3D TILT EFFECT (Mouse Tracking)
+        // Adds a subtle 3D tilt to cards on desktop
+        const cards = document.querySelectorAll('.card');
+        if (window.matchMedia("(min-width: 900px)").matches) {
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    // Rotation calculation
+                    const rotateX = ((y - centerY) / 25) * -1;
+                    const rotateY = (x - centerX) / 25;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+                });
+            });
+        }
+
+
+        // 4. PARTICLE BACKGROUND (Canvas)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.speedY = Math.random() * 0.2 - 0.1;
+                this.opacity = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if(this.x > canvas.width) this.x = 0;
+                if(this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function initParticles() {
+            // Limit to 60 particles for performance
+            for(let i=0; i<60; i++) particles.push(new Particle());
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+        
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
-</html>
+</htm
