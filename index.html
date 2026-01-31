@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachSaab | Future Tech & AI</title>
+    <title>CoachSaab | Future Tech Insights</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. SETTINGS --- */
+        /* --- 1. SETTINGS & VARIABLES --- */
         :root {
             --bg-deep: #050505;
             --bg-card: #0e0e0e;
             --text-main: #ffffff;
-            --text-muted: #888888;
+            --text-muted: #9ca3af;
             --gold: #D4AF37;
             --blue: #2563EB;
-            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
         }
 
-        /* --- 2. RESET & BASE --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none; /* Custom Cursor enabled */ }
+        /* --- 2. RESET & BASE STYLES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none; /* Custom Cursor */ }
         
         html { scroll-behavior: smooth; }
         
@@ -30,62 +30,33 @@
             background-color: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Outfit', sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            overflow-y: scroll; /* Ensure vertical scroll works */
+            overflow-x: hidden;
+            position: relative;
         }
 
         /* Cinematic Noise Texture */
-        .noise {
+        .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 50;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 10;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* Scroll Progress Bar */
-        .scroll-bar {
+        .scroll-progress {
             position: fixed;
             top: 0; left: 0; height: 3px;
-            background: linear-gradient(90deg, var(--gold), #fff);
+            background: linear-gradient(90deg, var(--gold), #ffffff);
             width: 0%;
             z-index: 9999;
             transition: width 0.1s linear;
         }
 
-        /* --- 3. CUSTOM CURSOR --- */
-        .cursor-dot {
-            width: 8px; height: 8px;
-            background: white;
-            position: fixed;
-            top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 10000;
-            pointer-events: none;
-        }
-        .cursor-outline {
-            width: 40px; height: 40px;
-            border: 1px solid rgba(255,255,255,0.5);
-            position: fixed;
-            top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
-            transition: width 0.2s, height 0.2s, background 0.2s;
-        }
-        
-        body.hover-active .cursor-outline {
-            width: 60px; height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: transparent;
-            backdrop-filter: blur(2px);
-        }
-
-        /* --- 4. LOADING SCREEN (BUG FIXED) --- */
-        .loader-wrap {
+        /* --- 3. FAILSAFE PRELOADER (CSS ONLY) --- */
+        /* This animation forces the loader to hide after 2.5s NO MATTER WHAT */
+        .preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: #000;
@@ -93,9 +64,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            animation: hideLoader 0.8s ease-in-out 2.5s forwards;
+            pointer-events: all;
         }
-        
+
         .loader-text {
             font-family: 'Space Grotesk';
             font-size: 2.5rem;
@@ -103,28 +75,111 @@
             -webkit-text-stroke: 1px rgba(255,255,255,0.3);
             position: relative;
         }
-        
+
         .loader-text::after {
             content: 'CoachSaab';
             position: absolute;
             left: 0; top: 0;
             width: 0%; height: 100%;
-            overflow: hidden;
             color: #fff;
+            overflow: hidden;
             border-right: 2px solid var(--gold);
-            animation: textType 2s var(--ease) forwards;
+            animation: textFill 2s var(--ease-out) forwards;
         }
 
-        @keyframes textType { 0% { width: 0; } 100% { width: 100%; } }
+        @keyframes textFill { 0% { width: 0; } 100% { width: 100%; } }
+        
+        /* The magic keyframe that removes the loader */
+        @keyframes hideLoader {
+            to { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
 
-        /* Class to hide loader */
-        .loader-wrap.loaded {
+        /* --- 4. CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background: white;
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 6000;
+            pointer-events: none;
+        }
+        .cursor-ring {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255,255,255,0.5);
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 5999;
+            pointer-events: none;
+            transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        body.hovering .cursor-ring {
+            width: 60px; height: 60px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(2px);
+            border-color: transparent;
+        }
+
+        /* --- 5. ANIMATED HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Background Particles Canvas */
+        #particle-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        /* Initial Load Animations (CSS) */
+        .hero h1 {
+            font-family: 'Space Grotesk';
+            font-size: clamp(3rem, 7vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
             opacity: 0;
-            visibility: hidden;
-            pointer-events: none; /* Crucial: Allows clicking through */
+            animation: fadeUp 1s var(--ease-out) 2.8s forwards; /* Delayed after loader */
         }
 
-        /* --- 5. NAVBAR --- */
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0;
+            animation: fadeUp 1s var(--ease-out) 3s forwards;
+        }
+
+        .hero-btn {
+            padding: 16px 40px;
+            background: #fff;
+            color: #000;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeUp 1s var(--ease-out) 3.2s forwards;
+            transition: transform 0.3s;
+        }
+        .hero-btn:hover { transform: scale(1.05); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 6. NAVIGATION --- */
         nav {
             display: flex;
             justify-content: space-between;
@@ -133,7 +188,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(5,5,5,0.85);
+            background: rgba(5,5,5,0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
@@ -146,93 +201,32 @@
             background-size: 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shine 5s linear infinite;
+            animation: shine 6s linear infinite;
         }
         @keyframes shine { to { background-position: 300%; } }
 
         .nav-links a {
-            text-decoration: none;
             color: var(--text-muted);
+            text-decoration: none;
             margin-left: 30px;
-            font-weight: 500;
-            transition: color 0.3s;
             position: relative;
+            transition: color 0.3s;
         }
         .nav-links a:hover { color: #fff; }
-        
-        /* Nav Underline Animation */
-        .nav-links a::before {
+        .nav-links a::after {
             content: '';
             position: absolute;
             bottom: -5px; left: 0; width: 0%; height: 1px;
             background: var(--gold);
-            transition: width 0.3s var(--ease);
+            transition: width 0.3s;
         }
-        .nav-links a:hover::before { width: 100%; }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* --- 6. HERO SECTION --- */
-        .hero {
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Particle Canvas */
-        #particles {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .hero h1 {
-            font-family: 'Space Grotesk';
-            font-size: clamp(3rem, 7vw, 6rem);
-            line-height: 1.1;
-            margin-bottom: 20px;
-            opacity: 0; /* Hidden initially */
-            transform: translateY(30px);
-            transition: all 1s var(--ease);
-        }
-        
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 40px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s var(--ease) 0.2s;
-        }
-
-        .hero-btn {
-            padding: 16px 40px;
-            background: #fff;
-            color: #000;
-            border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s var(--ease) 0.4s;
-        }
-        
-        /* Reveal Class (Added by JS) */
-        .hero.active h1, .hero.active p, .hero.active .hero-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 7. CONTENT GRID --- */
+        /* --- 7. CARDS & GRID --- */
         .container {
             max-width: 1300px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 80px 20px;
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 50px;
@@ -244,23 +238,20 @@
             gap: 30px;
         }
 
-        /* CARD STYLES */
+        /* Card Animation Styles */
         .card {
             background: var(--bg-card);
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.05);
             overflow: hidden;
-            position: relative;
+            opacity: 0; /* Hidden for scroll reveal */
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease, border 0.3s;
             transform-style: preserve-3d;
             perspective: 1000px;
-            
-            /* Scroll Reveal Settings */
-            opacity: 0; 
-            transform: translateY(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out, border 0.3s;
         }
-
-        .card.in-view {
+        
+        .card.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -274,63 +265,45 @@
             height: 220px;
             overflow: hidden;
         }
-        
         .card-img {
             width: 100%; height: 100%;
             object-fit: cover;
-            transition: transform 0.8s var(--ease);
+            transition: transform 0.7s var(--ease-out);
         }
-        
         .card:hover .card-img { transform: scale(1.1); }
 
         .card-content { padding: 30px; }
-        
-        .tag {
-            color: var(--gold);
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .card h3 {
-            font-family: 'Space Grotesk';
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-        
-        .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .tag { color: var(--gold); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 12px; }
+        .card h3 { font-family: 'Space Grotesk'; font-size: 1.5rem; margin-bottom: 10px; color: #fff; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; }
 
         /* --- 8. SIDEBAR --- */
-        aside { position: sticky; top: 100px; height: fit-content; }
+        aside { position: sticky; top: 120px; height: fit-content; }
 
-        .profile-box {
+        .profile-widget {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.05);
             padding: 40px;
             border-radius: 20px;
             text-align: center;
-            margin-bottom: 30px;
-            opacity: 0; /* Animated in */
+            opacity: 0; /* For scroll reveal */
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.2s;
         }
+        .profile-widget.visible { opacity: 1; transform: translateY(0); }
 
-        .avatar {
-            width: 110px; height: 110px;
-            border-radius: 50%;
+        .avatar-wrap {
+            width: 120px; height: 120px;
             margin: 0 auto 20px;
-            padding: 4px;
+            border-radius: 50%;
+            padding: 3px;
             background: linear-gradient(180deg, var(--gold), transparent);
-            position: relative;
         }
-        
-        .avatar img {
+        .avatar-img {
             width: 100%; height: 100%;
             border-radius: 50%;
-            object-fit: cover;
             border: 4px solid var(--bg-deep);
+            object-fit: cover;
         }
 
         .ad-space {
@@ -351,44 +324,46 @@
             color: var(--text-muted);
         }
 
-        /* Mobile Fixes */
+        /* Mobile Responsive */
         @media(max-width: 900px) {
-            * { cursor: auto !important; }
-            .cursor-dot, .cursor-outline { display: none; }
             .container { grid-template-columns: 1fr; }
             .nav-links { display: none; }
+            .cursor-dot, .cursor-ring { display: none; } /* Disable custom cursor on mobile */
+            * { cursor: auto !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="loader-wrap">
+    <div class="preloader">
         <div class="loader-text">CoachSaab</div>
     </div>
 
-    <div class="noise"></div>
-    <div class="scroll-bar" id="progressBar"></div>
+    <div class="noise-overlay"></div>
+    <div class="scroll-progress" id="progressBar"></div>
     <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <div class="cursor-ring"></div>
 
-    <nav class="interactable">
+    <nav>
         <div class="logo">Coach Saab</div>
         <div class="nav-links">
-            <a href="#" class="interactable">Latest</a>
-            <a href="#" class="interactable">Deep Dives</a>
-            <a href="#" class="interactable">Engineering</a>
-            <a href="#" class="interactable">About</a>
+            <a href="#" class="interactable">Home</a>
+            <a href="#" class="interactable">AI News</a>
+            <a href="#" class="interactable">Reviews</a>
+            <a href="#" class="interactable">Contact</a>
         </div>
     </nav>
 
     <header class="hero">
-        <canvas id="particles"></canvas>
-        <h1>Designing the<br>Future of Tech.</h1>
-        <p>Premium insights for the next generation of builders.</p>
-        <a href="#content" class="hero-btn interactable">Start Reading</a>
+        <canvas id="particle-canvas"></canvas>
+        <div class="hero-content">
+            <h1>Designing the<br>Future of Tech.</h1>
+            <p>Elite insights for the next generation of builders.</p>
+            <a href="#content" class="hero-btn interactable">Start Reading</a>
+        </div>
     </header>
 
-    <div class="ad-space" style="max-width: 728px; height: 90px; margin: 0 auto 60px;">PREMIUM AD SPACE</div>
+    <div class="ad-space" style="max-width: 728px; height: 90px; margin: 0 auto 60px;">AD SPACE</div>
 
     <div class="container" id="content">
         
@@ -431,7 +406,7 @@
 
             <article class="card interactable">
                 <div class="card-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop" class="card-img" alt="Sec">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop" class="card-img" alt="Security">
                 </div>
                 <div class="card-content">
                     <span class="tag">Security</span>
@@ -443,137 +418,134 @@
         </div>
 
         <aside>
-            <div class="profile-box card interactable">
-                <div class="avatar">
-                    <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" alt="Coach Saab">
+            <div class="profile-widget interactable">
+                <div class="avatar-wrap">
+                    <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" alt="Coach Saab" class="avatar-img">
                 </div>
                 <h3 style="font-family:'Space Grotesk'; margin-bottom: 5px; color:#fff;">Coach Saab</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Lead Futurist & Researcher</p>
+                <p style="color:var(--text-muted); font-size:0.9rem;">Lead Futurist & Researcher</p>
+                <div style="margin-top:15px; display:flex; gap:10px; justify-content:center;">
+                    <a href="#" style="color:#fff; opacity:0.7;">𝕏</a>
+                    <a href="#" style="color:#fff; opacity:0.7;">IG</a>
+                </div>
             </div>
 
-            <div class="ad-space card" style="height: 300px;">
-                SIDEBAR AD (300x250)
+            <div class="ad-space" style="height: 300px; margin-top:30px;">
+                SIDEBAR AD
             </div>
         </aside>
 
     </div>
 
     <footer>
-        <h2 style="font-family:'Space Grotesk'; margin-bottom: 15px;">CoachSaab.</h2>
+        <h2 style="font-family:'Space Grotesk'; color:#fff; margin-bottom:20px;">CoachSaab.</h2>
         <p>&copy; 2026 CoachSaab Media.</p>
     </footer>
 
     <script>
-        // --- 1. FAILSAFE LOADER REMOVAL ---
-        window.addEventListener('load', () => {
-            const loader = document.querySelector('.loader-wrap');
-            const hero = document.querySelector('.hero');
-            
-            // Wait 2.2 seconds then remove loader
-            setTimeout(() => {
-                loader.classList.add('loaded');
-                hero.classList.add('active'); // Trigger hero animation
-            }, 2200);
-        });
-
-        // SAFETY FALLBACK: If load event fails, force remove after 3s
-        setTimeout(() => {
-            document.querySelector('.loader-wrap').classList.add('loaded');
-            document.querySelector('.hero').classList.add('active');
-        }, 3000);
-
-
-        // --- 2. CUSTOM CURSOR ---
-        const dot = document.querySelector('.cursor-dot');
-        const outline = document.querySelector('.cursor-outline');
-
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            // Dot follows instantly
-            dot.style.left = `${posX}px`;
-            dot.style.top = `${posY}px`;
-
-            // Outline follows with lag
-            outline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-            
-            // Hover Effect check
-            const target = e.target;
-            if(target.classList.contains('interactable') || target.tagName === 'A') {
-                document.body.classList.add('hover-active');
-            } else {
-                document.body.classList.remove('hover-active');
-            }
-        });
-
-
-        // --- 3. SCROLL PROGRESS & OBSERVER ---
+        // A. SCROLL PROGRESS
         window.addEventListener('scroll', () => {
-            // Scroll Bar Calculation
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById("progressBar").style.width = scrolled + "%";
 
             // Parallax Hero
-            const heroContent = document.querySelector('.hero h1');
+            const heroContent = document.querySelector('.hero-content');
             if(winScroll < window.innerHeight) {
-                heroContent.style.transform = `translateY(${winScroll * 0.4}px)`;
+                heroContent.style.transform = `translateY(${winScroll * 0.3}px)`;
             }
         });
 
-        // Intersection Observer for Scroll Animations
+        // B. SCROLL REVEAL (Intersection Observer)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
                 }
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.card, .profile-box').forEach(el => observer.observe(el));
+        document.querySelectorAll('.card, .profile-widget').forEach(el => observer.observe(el));
 
+        // C. CUSTOM CURSOR
+        const dot = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
 
-        // --- 4. 3D TILT EFFECT ---
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            dot.style.left = `${posX}px`;
+            dot.style.top = `${posY}px`;
+
+            ring.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 400, fill: "forwards" });
+
+            if(e.target.classList.contains('interactable') || e.target.tagName === 'A') {
+                document.body.classList.add('hovering');
+            } else {
+                document.body.classList.remove('hovering');
+            }
+        });
+
+        // D. 3D TILT EFFECT
+        document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
-                // Rotation Math
-                const rotateX = ((y - centerY) / 20) * -1;
-                const rotateY = (x - centerX) / 20;
+                const rotateX = ((y - centerY) / 25) * -1;
+                const rotateY = (x - centerX) / 25;
 
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
             });
-
             card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
             });
         });
 
-
-        // --- 5. PARTICLE SYSTEM (Optimized) ---
-        const canvas = document.getElementById('particles');
+        // E. PARTICLE SYSTEM (Optimized)
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        let particlesArray = [];
-        
+        let particles = [];
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2;
-                this.speedX
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.speedY = Math.random() * 0.2 - 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if(this.x > canvas.width) this.x = 0;
+                if(this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255,255,255,0.05)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        function initParticles() {
+            for(let i=0; i<80; i++) particles.push(new Particle());
+        }
+        function animateParticles() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles();
+        animateParticles();
+        
+        window.addEventListener('res
