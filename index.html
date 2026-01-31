@@ -10,41 +10,115 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. THE $100K COLOR PALETTE --- */
+        /* --- 1. SETTINGS & VARIABLES --- */
         :root {
-            --bg-void: #030303;
-            --bg-panel: #0A0A0A;
-            --text-white: #ffffff;
-            --text-silver: #888888;
-            --accent-gold: #D4AF37; /* Real Gold Hex */
-            --accent-blue: #2563EB;
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --glass-blur: blur(20px);
-            --ease-lux: cubic-bezier(0.16, 1, 0.3, 1); /* Apple-style easing */
+            --bg-deep: #050505;
+            --bg-panel: #0e0e0e;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --gold: #D4AF37;
+            --blue: #2563EB;
+            --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* --- 2. CINEMATIC BASE --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* --- 2. GLOBAL RESET & BASE --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none; /* Hide default cursor */ }
         
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: var(--bg-void);
-            color: var(--text-white);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             font-family: 'Outfit', sans-serif;
             overflow-x: hidden;
-            /* Cinematic Grain Overlay */
             position: relative;
         }
 
-        body::before {
-            content: "";
+        /* Cinematic Noise Overlay */
+        .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             pointer-events: none;
-            z-index: 9999;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* --- 3. THE LIQUID ANIMATED LOGO --- */
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), #fff);
+            width: 0%;
+            z-index: 2000;
+            transition: width 0.1s;
+        }
+
+        /* --- 3. CUSTOM CURSOR --- */
+        .cursor-dot, .cursor-circle {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background: white;
+        }
+        .cursor-circle {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        /* Hover State for Cursor */
+        body.hovering .cursor-circle {
+            width: 60px; height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- 4. PRELOADER ANIMATION --- */
+        .preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.8s var(--ease-expo);
+        }
+        .loader-text {
+            font-family: 'Space Grotesk';
+            font-size: 2rem;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            position: relative;
+        }
+        .loader-text::before {
+            content: 'CoachSaab';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0%;
+            height: 100%;
+            color: #fff;
+            overflow: hidden;
+            border-right: 2px solid var(--gold);
+            animation: loadText 2s var(--ease-expo) forwards;
+        }
+        .preloader.hide { transform: translateY(-100%); }
+
+        @keyframes loadText { 
+            0% { width: 0; } 
+            100% { width: 100%; } 
+        }
+
+        /* --- 5. NAVIGATION --- */
         nav {
             display: flex;
             justify-content: space-between;
@@ -53,355 +127,417 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(3, 3, 3, 0.85);
-            backdrop-filter: var(--glass-blur);
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
         }
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.8rem;
             font-weight: 800;
-            letter-spacing: -1px;
-            /* Liquid Gold Animation */
-            background: linear-gradient(
-                90deg, 
-                #ffffff 0%, 
-                #888888 20%, 
-                #D4AF37 40%, 
-                #FFD700 60%, 
-                #ffffff 80%
-            );
-            background-size: 300% auto;
+            background: linear-gradient(90deg, #fff, #999, var(--gold), #fff);
+            background-size: 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shimmer 5s linear infinite;
+            animation: shine 6s linear infinite;
         }
+        @keyframes shine { to { background-position: 300%; } }
 
-        @keyframes shimmer {
-            to { background-position: 300% center; }
-        }
-
-        .nav-links { display: flex; gap: 40px; }
         .nav-links a {
-            color: var(--text-silver);
             text-decoration: none;
+            color: var(--text-muted);
+            margin-left: 30px;
             font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.3s;
             position: relative;
+            transition: color 0.3s;
         }
         .nav-links a:hover { color: #fff; }
-        
-        .subscribe-btn {
-            padding: 12px 28px;
-            background: #fff;
-            color: #000;
-            border-radius: 100px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: transform 0.3s var(--ease-lux);
-        }
-        .subscribe-btn:hover { transform: scale(1.05); }
-
-        /* --- 4. HERO SECTION --- */
-        .hero {
-            text-align: center;
-            padding: 140px 20px 100px;
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        /* Background Glow Behind Hero */
-        .hero::after {
+        .nav-links a::after {
             content: '';
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            bottom: -5px; left: 0; width: 0%; height: 1px;
+            background: var(--gold);
+            transition: width 0.3s var(--ease-expo);
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- 6. HERO SECTION (Parallax & Particles) --- */
+        .hero {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            filter: blur(80px);
         }
 
         .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 6vw, 5rem);
-            line-height: 1.05;
-            margin-bottom: 24px;
-            background: linear-gradient(180deg, #fff, #999);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: 'Space Grotesk';
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            line-height: 1.1;
+            mix-blend-mode: screen;
+            opacity: 0; /* JS will reveal */
+            transform: translateY(30px);
         }
-
+        
         .hero p {
-            color: var(--text-silver);
-            font-size: 1.3rem;
+            font-size: 1.25rem;
+            color: var(--text-muted);
             max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        /* --- 5. ULTRA-PREMIUM 3D CARDS --- */
+        /* --- 7. SKELETON & CARDS --- */
         .container {
             max-width: 1300px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 80px 20px;
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 60px;
         }
 
-        .grid-posts {
+        .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 30px;
         }
 
+        /* Skeleton Loading State */
+        .skeleton {
+            background: #111;
+            border-radius: 16px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Real Card Styles */
         .card-3d {
             background: var(--bg-panel);
-            border-radius: 20px;
-            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
             overflow: hidden;
             position: relative;
             transform-style: preserve-3d;
-            transform: perspective(1000px);
-            cursor: pointer;
-            transition: border 0.3s;
-        }
-
-        .card-3d:hover {
-            border-color: rgba(255,255,255,0.15);
-        }
-
-        .card-image-box {
-            height: 220px;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.7s var(--ease-lux);
+            opacity: 0; /* For scroll reveal */
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
         
-        .card-3d:hover .card-image-box img {
-            transform: scale(1.08);
+        .card-3d.visible { opacity: 1; transform: translateY(0); }
+
+        .card-img-box {
+            height: 220px;
+            overflow: hidden;
         }
+        .card-img-box img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.7s var(--ease-expo);
+        }
+        .card-3d:hover .card-img-box img { transform: scale(1.1); }
 
-        .card-content { padding: 28px; }
-
+        .card-content { padding: 30px; }
+        
         .tag {
-            font-size: 0.7rem;
+            color: var(--gold);
+            font-size: 0.75rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--accent-gold);
             font-weight: 700;
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .card-3d h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.6rem;
-            line-height: 1.2;
-            margin-bottom: 12px;
-            color: #fff;
+            font-family: 'Space Grotesk';
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
         }
+        
+        .card-3d p { color: var(--text-muted); font-size: 0.95rem; }
 
-        .card-3d p {
-            color: var(--text-silver);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* --- 6. SIDEBAR & PROFILE PIC --- */
+        /* --- 8. SIDEBAR & PROFILE --- */
         aside { position: sticky; top: 120px; height: fit-content; }
 
         .profile-widget {
-            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0));
-            border: 1px solid var(--border-subtle);
-            padding: 35px;
-            border-radius: 24px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            backdrop-filter: blur(10px);
+            opacity: 0; /* Scroll reveal */
         }
 
         .avatar-wrap {
-            width: 120px;
-            height: 120px;
+            width: 120px; height: 120px;
             margin: 0 auto 20px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(180deg, var(--gold), transparent);
             position: relative;
-            padding: 4px;
-            background: linear-gradient(135deg, var(--accent-gold), transparent);
-            border-radius: 50%;
         }
-
+        
         .avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%;
             border-radius: 50%;
-            border: 4px solid var(--bg-void);
-            background-color: #222; /* Fallback color */
+            border: 4px solid var(--bg-deep);
+            object-fit: cover;
         }
 
-        .social-link {
-            font-size: 0.8rem;
-            color: var(--text-silver);
-            text-decoration: none;
-            margin: 0 8px;
-            transition: color 0.3s;
-        }
-        .social-link:hover { color: var(--accent-gold); }
-
-        /* --- 7. AD SLOT STYLING --- */
-        .ad-container {
-            width: 100%;
-            background: repeating-linear-gradient(45deg, #0e0e0e, #0e0e0e 10px, #121212 10px, #121212 20px);
-            border: 1px dashed #333;
-            border-radius: 12px;
+        .social-icons {
             display: flex;
-            align-items: center;
             justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+        .icon:hover { background: #fff; color: #000; transform: translateY(-3px); }
+
+        /* --- 9. AD SLOTS --- */
+        .ad-slot {
+            width: 100%;
+            background: repeating-linear-gradient(45deg, #0a0a0a, #0a0a0a 10px, #111 10px, #111 20px);
+            border: 1px dashed #333;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
             color: #444;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
+            font-size: 0.8rem;
         }
 
-        /* Responsive */
+        /* --- 10. FOOTER --- */
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            padding: 80px 0;
+            margin-top: 100px;
+            color: var(--text-muted);
+            opacity: 0;
+        }
+
+        /* Mobile */
         @media(max-width: 900px) {
             .container { grid-template-columns: 1fr; }
             .nav-links { display: none; }
-            .hero h1 { font-size: 3rem; }
+            .cursor-circle, .cursor-dot { display: none; } /* No custom cursor on mobile */
+            * { cursor: auto; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Coach Saab</div>
-        
-        <div class="nav-links">
-            <a href="#">Intelligence</a>
-            <a href="#">Markets</a>
-            <a href="#">Engineering</a>
-            <a href="#">About</a>
-        </div>
-        <a href="#" class="subscribe-btn">Subscribe</a>
-    </nav>
+    <div class="noise-overlay"></div>
+    <div class="scroll-progress" id="progressBar"></div>
+    
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
 
-    <div class="ad-container" style="max-width: 728px; height: 90px; margin: 40px auto;">
-        PREMIUM AD SPACE (728x90)
+    <div class="preloader">
+        <div class="loader-text">CoachSaab</div>
     </div>
 
+    <nav class="hover-trigger">
+        <div class="logo">Coach Saab</div>
+        <div class="nav-links">
+            <a href="#" class="hover-trigger">Home</a>
+            <a href="#" class="hover-trigger">Analysis</a>
+            <a href="#" class="hover-trigger">Engineering</a>
+            <a href="#" class="hover-trigger">About</a>
+        </div>
+    </nav>
+
     <header class="hero">
-        <h1>Navigate the<br>Intelligence Age.</h1>
-        <p>Strategic insights for engineers, founders, and investors building the next generation of AI.</p>
+        <canvas id="particle-canvas"></canvas>
+        <div class="hero-content">
+            <h1 class="reveal-text">Designing the<br>Future of Tech.</h1>
+            <p class="reveal-text" style="animation-delay: 0.2s;">Elite insights for the next generation of builders.</p>
+        </div>
     </header>
+
+    <div class="ad-slot" style="max-width: 728px; height: 90px; margin: 0 auto 60px;">AD SPACE</div>
 
     <div class="container">
         
-        <div class="grid-posts">
-            
-            <article class="card-3d">
-                <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop" alt="AI Architecture">
-                </div>
-                <div class="card-content">
-                    <span class="tag">Analysis</span>
-                    <h3>GPT-5: The Architecture</h3>
-                    <p>A deep dive into the leaked specs. Multi-modal reasoning and what it means for your backend.</p>
-                </div>
-            </article>
-
-            <article class="card-3d">
-                <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&auto=format&fit=crop" alt="Crypto">
-                </div>
-                <div class="card-content">
-                    <span class="tag">Web3</span>
-                    <h3>DeFi vs. TradFi</h3>
-                    <p>Why institutional capital is quietly moving into decentralized protocols this quarter.</p>
-                </div>
-            </article>
-
-            <div class="ad-container" style="grid-column: 1/-1; height: 120px;">
-                IN-FEED ADVERTISEMENT
-            </div>
-
-            <article class="card-3d">
-                <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&auto=format&fit=crop" alt="Rust Code">
-                </div>
-                <div class="card-content">
-                    <span class="tag">Engineering</span>
-                    <h3>Why We Switched to Rust</h3>
-                    <p>Reducing server costs by 60% and eliminating memory safety bugs in production.</p>
-                </div>
-            </article>
-
-            <article class="card-3d">
-                <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop" alt="Security">
-                </div>
-                <div class="card-content">
-                    <span class="tag">Security</span>
-                    <h3>Zero Trust Architecture</h3>
-                    <p>The enterprise guide to securing internal tools without VPNs.</p>
-                </div>
-            </article>
-
+        <div class="card-grid" id="cardContainer">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
         </div>
 
         <aside>
-            <div class="profile-widget">
+            <div class="profile-widget scroll-reveal">
                 <div class="avatar-wrap">
-                    <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" 
-                         alt="Coach Saab" 
-                         class="avatar-img">
+                    <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" class="avatar-img hover-trigger">
                 </div>
+                <h3 style="font-family:'Space Grotesk'; margin-bottom: 5px;">Coach Saab</h3>
+                <p style="color:var(--text-muted); font-size:0.9rem;">Lead Researcher & Futurist</p>
                 
-                <h3 style="font-family:'Space Grotesk'; font-size:1.4rem; margin-bottom:5px; color:#fff;">Coach Saab</h3>
-                <p style="color:var(--text-silver); font-size:0.9rem; margin-bottom:20px;">Researching the future of Technology & Capital.</p>
-                
-                <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
-                    <a href="#" class="social-link">TWITTER</a>
-                    <a href="#" class="social-link">YOUTUBE</a>
-                    <a href="#" class="social-link">GITHUB</a>
+                <div class="social-icons">
+                    <a href="#" class="icon hover-trigger">𝕏</a>
+                    <a href="#" class="icon hover-trigger">In</a>
+                    <a href="#" class="icon hover-trigger">Gt</a>
                 </div>
             </div>
 
-            <div class="ad-container" style="height: 300px; margin-top:30px;">
-                SIDEBAR AD (300x250)
+            <div class="ad-slot scroll-reveal" style="height: 300px; margin-top: 30px;">
+                SIDEBAR AD
             </div>
         </aside>
 
     </div>
 
-    <footer>
-        <p style="opacity: 0.5; font-size: 0.85rem;">&copy; 2026 CoachSaab Media Inc. | Privacy Policy</p>
+    <footer class="scroll-reveal">
+        <h2 style="font-family:'Space Grotesk'; color:#fff; margin-bottom:20px;">CoachSaab.</h2>
+        <p>&copy; 2026 CoachSaab Media. Crafted for performance.</p>
     </footer>
 
     <script>
-        // 3D Tilt Logic
-        const cards = document.querySelectorAll('.card-3d');
-        
-        cards.forEach(card => {
+        // --- 1. DATA: REAL CONTENT MOCKUP ---
+        const realPosts = [
+            { title: "GPT-5 Architecture", cat: "Analysis", img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop", text: "Deep dive into the leaked specs and what it means." },
+            { title: "DeFi vs TradFi", cat: "Markets", img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&auto=format&fit=crop", text: "Institutional capital is moving to decentralized protocols." },
+            { title: "Rust in Production", cat: "DevOps", img: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&auto=format&fit=crop", text: "Why we rewrote our entire backend in Rust." },
+            { title: "Zero Trust Security", cat: "Cyber", img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop", text: "The definitive guide to enterprise security." }
+        ];
+
+        // --- 2. LOADER & SKELETON REPLACEMENT ---
+        window.addEventListener('load', () => {
+            // Remove Preloader
+            setTimeout(() => {
+                document.querySelector('.preloader').classList.add('hide');
+                
+                // Trigger Hero Animation
+                const heroTexts = document.querySelectorAll('.reveal-text');
+                heroTexts.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                        el.style.transition = 'all 1s cubic-bezier(0.19, 1, 0.22, 1)';
+                    }, 500 + (index * 200));
+                });
+
+                // Simulate Data Load (Replace Skeletons)
+                setTimeout(loadRealContent, 800);
+
+            }, 2000); // 2 second fake load time
+        });
+
+        function loadRealContent() {
+            const container = document.getElementById('cardContainer');
+            container.innerHTML = ''; // Clear skeletons
+            
+            realPosts.forEach((post, i) => {
+                const article = document.createElement('article');
+                article.className = 'card-3d hover-trigger';
+                article.innerHTML = `
+                    <div class="card-img-box"><img src="${post.img}" alt="${post.title}"></div>
+                    <div class="card-content">
+                        <span class="tag">${post.cat}</span>
+                        <h3>${post.title}</h3>
+                        <p>${post.text}</p>
+                    </div>
+                `;
+                container.appendChild(article);
+                
+                // Staggered Reveal
+                setTimeout(() => article.classList.add('visible'), i * 150);
+                
+                // Re-init Tilt for new elements
+                initTilt(article);
+            });
+        }
+
+        // --- 3. SCROLL PROGRESS & OBSERVER ---
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+
+            // Parallax Hero Text
+            const heroContent = document.querySelector('.hero-content');
+            heroContent.style.transform = `translateY(${winScroll * 0.4}px)`;
+        });
+
+        // Intersection Observer for Fade-ins
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transition = 'all 0.8s ease-out';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // --- 4. CUSTOM CURSOR LOGIC ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot moves instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Circle moves with delay (lag effect)
+            cursorCircle.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+
+            // Hover States
+            const target = e.target;
+            if (target.classList.contains('hover-trigger') || target.tagName === 'A') {
+                document.body.classList.add('hovering');
+            } else {
+                document.body.classList.remove('hovering');
+            }
+        });
+
+        // --- 5. 3D TILT ENGINE ---
+        function initTilt(card) {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / 20) * -1; // Invert for "look at" feel
+                const rotateX = ((y - centerY) / 20) * -1;
                 const rotateY = (x - centerX) / 20;
 
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
@@ -410,7 +546,10 @@
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
             });
-        });
-    </script>
-</body>
-</html>
+        }
+
+        // --- 6. PARTICLE SYSTEM (CANVAS) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = w
