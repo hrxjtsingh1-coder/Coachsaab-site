@@ -3,307 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachSaab | The Future of Tech</title>
+    <title>CoachSaab | Global Tech Insights</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. CONFIGURATION --- */
+        /* --- 1. THE $100K COLOR PALETTE --- */
         :root {
-            --bg-deep: #030304;
-            --bg-surface: #0e0e10;
-            --text-primary: #ffffff;
-            --text-secondary: #9ca3af;
-            --brand-gold: #FFD700;
-            --brand-glow: rgba(255, 215, 0, 0.15);
-            --border-light: rgba(255, 255, 255, 0.08);
-            --glass: rgba(20, 20, 20, 0.6);
-            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+            --bg-void: #030303;
+            --bg-panel: #0A0A0A;
+            --text-white: #ffffff;
+            --text-silver: #888888;
+            --accent-gold: #D4AF37; /* Real Gold Hex */
+            --accent-blue: #2563EB;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --glass-blur: blur(20px);
+            --ease-lux: cubic-bezier(0.16, 1, 0.3, 1); /* Apple-style easing */
         }
 
-        /* --- 2. CORE SETUP --- */
+        /* --- 2. CINEMATIC BASE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background-color: var(--bg-deep);
-            color: var(--text-primary);
+            background-color: var(--bg-void);
+            color: var(--text-white);
             font-family: 'Outfit', sans-serif;
             overflow-x: hidden;
-            /* Subtle Grid Background */
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%), 
-                radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.05), transparent 25%);
+            /* Cinematic Grain Overlay */
+            position: relative;
         }
 
-        /* --- 3. UI COMPONENTS --- */
-        
-        /* Animated Navigation */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* --- 3. THE LIQUID ANIMATED LOGO --- */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
+            padding: 24px 5%;
             position: sticky;
             top: 0;
-            z-index: 999;
-            backdrop-filter: blur(16px);
-            background: rgba(3, 3, 4, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
+            z-index: 1000;
+            background: rgba(3, 3, 3, 0.85);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
         }
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 800;
             font-size: 1.8rem;
+            font-weight: 800;
             letter-spacing: -1px;
-            color: #fff;
-            position: relative;
+            /* Liquid Gold Animation */
+            background: linear-gradient(
+                90deg, 
+                #ffffff 0%, 
+                #888888 20%, 
+                #D4AF37 40%, 
+                #FFD700 60%, 
+                #ffffff 80%
+            );
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s linear infinite;
         }
-        
-        .logo span { color: var(--brand-gold); }
+
+        @keyframes shimmer {
+            to { background-position: 300% center; }
+        }
 
         .nav-links { display: flex; gap: 40px; }
         .nav-links a {
+            color: var(--text-silver);
             text-decoration: none;
-            color: var(--text-secondary);
+            font-size: 0.9rem;
             font-weight: 500;
-            font-size: 0.95rem;
-            position: relative;
             transition: color 0.3s;
+            position: relative;
         }
         .nav-links a:hover { color: #fff; }
         
-        /* Glowing Underline Effect */
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background: var(--brand-gold);
-            transition: width 0.3s var(--ease-out);
-            box-shadow: 0 0 10px var(--brand-gold);
-        }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* --- 4. HERO SECTION (Aurora Effect) --- */
-        .hero {
-            position: relative;
-            text-align: center;
-            padding: 120px 20px 80px;
-            overflow: hidden;
-        }
-
-        .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 6vw, 5.5rem);
-            line-height: 1.05;
-            margin-bottom: 24px;
-            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeUp 1s var(--ease-out) forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 40px;
-            animation: fadeUp 1s var(--ease-out) 0.2s forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .hero-btn {
-            padding: 16px 42px;
+        .subscribe-btn {
+            padding: 12px 28px;
             background: #fff;
             color: #000;
             border-radius: 100px;
             font-weight: 700;
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
-            animation: fadeUp 1s var(--ease-out) 0.4s forwards;
-            opacity: 0;
-            transform: translateY(30px);
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            transition: transform 0.3s var(--ease-lux);
         }
-        .hero-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(255,255,255,0.3);
-        }
+        .subscribe-btn:hover { transform: scale(1.05); }
 
-        /* --- 5. 3D CARD SYSTEM --- */
-        .container {
-            max-width: 1280px;
+        /* --- 4. HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 140px 20px 100px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 2.2fr 1fr;
-            gap: 50px;
+            position: relative;
+        }
+        
+        /* Background Glow Behind Hero */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
         }
 
-        .blog-grid {
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.05;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-silver);
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* --- 5. ULTRA-PREMIUM 3D CARDS --- */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+        }
+
+        .grid-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 30px;
         }
 
-        /* The 3D Card Container */
-        .tilt-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
+        .card-3d {
+            background: var(--bg-panel);
             border-radius: 20px;
+            border: 1px solid var(--border-subtle);
             overflow: hidden;
             position: relative;
-            transform-style: preserve-3d; /* Critical for 3D */
-            transform: perspective(1000px);
-            transition: border-color 0.3s;
-            cursor: pointer;
-        }
-
-        .tilt-card:hover {
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        /* Inner Content floating in 3D */
-        .tilt-inner {
             transform-style: preserve-3d;
-            transform: translateZ(20px);
+            transform: perspective(1000px);
+            cursor: pointer;
+            transition: border 0.3s;
         }
 
-        .card-img-wrap {
-            height: 220px;
-            overflow: hidden;
-            border-bottom: 1px solid var(--border-light);
+        .card-3d:hover {
+            border-color: rgba(255,255,255,0.15);
         }
-        
-        .card-img {
+
+        .card-image-box {
+            height: 220px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s var(--ease-out);
+            transition: transform 0.7s var(--ease-lux);
+        }
+        
+        .card-3d:hover .card-image-box img {
+            transform: scale(1.08);
         }
 
-        .tilt-card:hover .card-img {
-            transform: scale(1.1);
-        }
+        .card-content { padding: 28px; }
 
-        .card-content { padding: 25px; }
-
-        .category {
-            font-size: 0.75rem;
-            color: var(--brand-gold);
-            text-transform: uppercase;
+        .tag {
+            font-size: 0.7rem;
             letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
             font-weight: 700;
-            margin-bottom: 12px;
             display: block;
-            text-shadow: 0 0 15px var(--brand-glow);
+            margin-bottom: 12px;
         }
 
-        .tilt-card h3 {
-            font-family: 'Space Grotesk';
+        .card-3d h3 {
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 1.6rem;
             line-height: 1.2;
             margin-bottom: 12px;
             color: #fff;
         }
 
-        .tilt-card p {
-            color: var(--text-secondary);
+        .card-3d p {
+            color: var(--text-silver);
             font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        /* --- 6. SIDEBAR & PROFILE --- */
-        aside {
-            position: sticky;
-            top: 100px;
-            height: fit-content;
-        }
+        /* --- 6. SIDEBAR & PROFILE PIC --- */
+        aside { position: sticky; top: 120px; height: fit-content; }
 
-        .profile-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-            border: 1px solid var(--border-light);
-            padding: 30px;
-            border-radius: 20px;
+        .profile-widget {
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0));
+            border: 1px solid var(--border-subtle);
+            padding: 35px;
+            border-radius: 24px;
             text-align: center;
             backdrop-filter: blur(10px);
-            margin-bottom: 30px;
         }
 
-        /* PROFILE PICTURE STYLING */
-        .avatar-container {
-            width: 110px;
-            height: 110px;
+        .avatar-wrap {
+            width: 120px;
+            height: 120px;
             margin: 0 auto 20px;
             position: relative;
-        }
-        
-        .avatar-ring {
-            position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            padding: 4px;
+            background: linear-gradient(135deg, var(--accent-gold), transparent);
             border-radius: 50%;
-            background: linear-gradient(45deg, var(--brand-gold), transparent, var(--brand-gold));
-            animation: spin 4s linear infinite;
-            z-index: 1;
         }
 
         .avatar-img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
-            position: relative;
-            z-index: 2;
-            border: 4px solid var(--bg-surface);
-            background: #222;
+            border-radius: 50%;
+            border: 4px solid var(--bg-void);
+            background-color: #222; /* Fallback color */
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .social-link {
+            font-size: 0.8rem;
+            color: var(--text-silver);
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.3s;
+        }
+        .social-link:hover { color: var(--accent-gold); }
 
-        /* --- 7. UTILS & ADS --- */
-        .ad-slot {
+        /* --- 7. AD SLOT STYLING --- */
+        .ad-container {
             width: 100%;
-            background: repeating-linear-gradient(45deg, #111, #111 10px, #161616 10px, #161616 20px);
+            background: repeating-linear-gradient(45deg, #0e0e0e, #0e0e0e 10px, #121212 10px, #121212 20px);
             border: 1px dashed #333;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #555;
-            font-size: 0.8rem;
+            color: #444;
+            font-size: 0.75rem;
             letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ad-slot::after {
-            content: 'AD SPACE';
-            z-index: 2;
         }
 
-        footer {
-            border-top: 1px solid var(--border-light);
-            text-align: center;
-            padding: 60px 0;
-            margin-top: 80px;
-            color: var(--text-secondary);
-        }
-
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile Responsive */
+        /* Responsive */
         @media(max-width: 900px) {
             .container { grid-template-columns: 1fr; }
             .nav-links { display: none; }
@@ -314,140 +285,132 @@
 <body>
 
     <nav>
-        <div class="logo">Coach<span>Saab.</span></div>
+        <div class="logo">Coach Saab</div>
+        
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">AI Tools</a>
-            <a href="#">Tutorials</a>
-            <a href="#">Reviews</a>
+            <a href="#">Intelligence</a>
+            <a href="#">Markets</a>
+            <a href="#">Engineering</a>
+            <a href="#">About</a>
         </div>
-        <a href="#" class="hero-btn" style="padding: 10px 24px; font-size: 0.9rem; animation: none; opacity: 1; transform: none;">Subscribe</a>
+        <a href="#" class="subscribe-btn">Subscribe</a>
     </nav>
 
-    <div class="ad-slot" style="max-width: 728px; height: 90px; margin: 40px auto;"></div>
+    <div class="ad-container" style="max-width: 728px; height: 90px; margin: 40px auto;">
+        PREMIUM AD SPACE (728x90)
+    </div>
 
     <header class="hero">
-        <h1>Unlocking the Future<br>of AI & Technology.</h1>
-        <p>Premium insights, detailed guides, and no-nonsense reviews for the modern developer.</p>
-        <a href="#posts" class="hero-btn">Start Reading</a>
+        <h1>Navigate the<br>Intelligence Age.</h1>
+        <p>Strategic insights for engineers, founders, and investors building the next generation of AI.</p>
     </header>
 
-    <div class="container" id="posts">
+    <div class="container">
         
-        <div class="blog-grid">
+        <div class="grid-posts">
             
-            <article class="tilt-card" data-tilt>
-                <div class="card-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&auto=format&fit=crop" class="card-img" alt="AI">
+            <article class="card-3d">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop" alt="AI Architecture">
                 </div>
                 <div class="card-content">
-                    <span class="category">AI News</span>
-                    <h3>GPT-5 Technical Breakdown</h3>
-                    <p>We analyzed the leaked architecture papers. Here is what developers can realistically expect in Q3.</p>
+                    <span class="tag">Analysis</span>
+                    <h3>GPT-5: The Architecture</h3>
+                    <p>A deep dive into the leaked specs. Multi-modal reasoning and what it means for your backend.</p>
                 </div>
             </article>
 
-            <article class="tilt-card" data-tilt>
-                <div class="card-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop" class="card-img" alt="Security">
+            <article class="card-3d">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&auto=format&fit=crop" alt="Crypto">
                 </div>
                 <div class="card-content">
-                    <span class="category">Security</span>
-                    <h3>The Death of Passwords</h3>
-                    <p>Passkeys are now mandatory for SaaS. A complete implementation guide for auth systems.</p>
+                    <span class="tag">Web3</span>
+                    <h3>DeFi vs. TradFi</h3>
+                    <p>Why institutional capital is quietly moving into decentralized protocols this quarter.</p>
                 </div>
             </article>
 
-            <div class="ad-slot" style="grid-column: 1/-1; height: 140px;">IN-FEED ADVERTISEMENT</div>
+            <div class="ad-container" style="grid-column: 1/-1; height: 120px;">
+                IN-FEED ADVERTISEMENT
+            </div>
 
-            <article class="tilt-card" data-tilt>
-                <div class="card-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&auto=format&fit=crop" class="card-img" alt="Code">
+            <article class="card-3d">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&auto=format&fit=crop" alt="Rust Code">
                 </div>
                 <div class="card-content">
-                    <span class="category">DevOps</span>
-                    <h3>Rust vs. Python in 2026</h3>
-                    <p>Why 40% of AI startups are rewriting their inference engines in Rust this year.</p>
+                    <span class="tag">Engineering</span>
+                    <h3>Why We Switched to Rust</h3>
+                    <p>Reducing server costs by 60% and eliminating memory safety bugs in production.</p>
                 </div>
             </article>
 
-            <article class="tilt-card" data-tilt>
-                <div class="card-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop" class="card-img" alt="Hacking">
+            <article class="card-3d">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop" alt="Security">
                 </div>
                 <div class="card-content">
-                    <span class="category">Career</span>
-                    <h3>Ethical Hacking 101</h3>
-                    <p>From script kiddie to bug bounty hunter. A roadmap for earning your first payout.</p>
+                    <span class="tag">Security</span>
+                    <h3>Zero Trust Architecture</h3>
+                    <p>The enterprise guide to securing internal tools without VPNs.</p>
                 </div>
             </article>
 
         </div>
 
         <aside>
-            
-            <div class="profile-card">
-                <div class="avatar-container">
-                    <div class="avatar-ring"></div>
-                    <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" alt="Coach Saab" class="avatar-img">
+            <div class="profile-widget">
+                <div class="avatar-wrap">
+                    <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" 
+                         alt="Coach Saab" 
+                         class="avatar-img">
                 </div>
                 
-                <h3 style="font-family:'Space Grotesk'; color:#fff; margin-bottom: 5px;">Coach Saab</h3>
-                <p style="color:var(--text-secondary); font-size:0.9rem;">Tech Lead & Researcher</p>
+                <h3 style="font-family:'Space Grotesk'; font-size:1.4rem; margin-bottom:5px; color:#fff;">Coach Saab</h3>
+                <p style="color:var(--text-silver); font-size:0.9rem; margin-bottom:20px;">Researching the future of Technology & Capital.</p>
                 
-                <div style="margin-top: 15px; display:flex; gap:10px; justify-content:center;">
-                    <a href="#" style="color:#fff; opacity:0.7;">𝕏</a>
-                    <a href="#" style="color:#fff; opacity:0.7;">IG</a>
-                    <a href="#" style="color:#fff; opacity:0.7;">YT</a>
-                </div>
-            </div>
-            <div class="ad-slot" style="height: 300px; margin-bottom: 30px;">SIDEBAR AD</div>
-
-            <div class="profile-card" style="text-align: left; padding: 25px;">
-                <h4 style="color:#fff; margin-bottom:15px;">Trending Tags</h4>
-                <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                    <span style="background:#222; padding:5px 10px; border-radius:5px; font-size:0.8rem; color:#888;">#AI</span>
-                    <span style="background:#222; padding:5px 10px; border-radius:5px; font-size:0.8rem; color:#888;">#Crypto</span>
-                    <span style="background:#222; padding:5px 10px; border-radius:5px; font-size:0.8rem; color:#888;">#SaaS</span>
+                <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+                    <a href="#" class="social-link">TWITTER</a>
+                    <a href="#" class="social-link">YOUTUBE</a>
+                    <a href="#" class="social-link">GITHUB</a>
                 </div>
             </div>
 
+            <div class="ad-container" style="height: 300px; margin-top:30px;">
+                SIDEBAR AD (300x250)
+            </div>
         </aside>
 
     </div>
 
     <footer>
-        <h2 style="font-family:'Space Grotesk'; color:#fff; margin-bottom:20px;">CoachSaab.</h2>
-        <p>&copy; 2026 CoachSaab Media. All Rights Reserved.</p>
-        <p style="margin-top:10px; opacity: 0.5; font-size: 0.85rem;">Privacy Policy | Terms | Contact</p>
+        <p style="opacity: 0.5; font-size: 0.85rem;">&copy; 2026 CoachSaab Media Inc. | Privacy Policy</p>
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cards = document.querySelectorAll(".tilt-card");
+        // 3D Tilt Logic
+        const cards = document.querySelectorAll('.card-3d');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / 20) * -1; // Invert for "look at" feel
+                const rotateY = (x - centerX) / 20;
 
-            cards.forEach((card) => {
-                card.addEventListener("mousemove", (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
 
-                    // Calculate rotation based on mouse position
-                    // We rotate inversely to create the "looking at" effect
-                    const xRotation = -1 * ((y - rect.height / 2) / 10); 
-                    const yRotation = (x - rect.width / 2) / 10;
-
-                    // Apply the 3D transformation
-                    card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) scale(1.02)`;
-                });
-
-                // Reset when mouse leaves
-                card.addEventListener("mouseleave", () => {
-                    card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
-                });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
             });
         });
     </script>
-
 </body>
 </html>
