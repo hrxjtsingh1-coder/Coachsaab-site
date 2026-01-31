@@ -32,11 +32,10 @@
             font-family: 'Outfit', sans-serif;
             overflow-x: hidden;
             position: relative;
-            /* Ensures scrollbar looks dark on supported browsers */
             color-scheme: dark; 
         }
 
-        /* CINEMATIC NOISE TEXTURE (The "Premium" Touch) */
+        /* CINEMATIC NOISE TEXTURE */
         .noise {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -57,7 +56,6 @@
         }
 
         /* --- 3. FAILSAFE PRELOADER (CSS ONLY) --- */
-        /* This guarantees the site loads even if JS fails */
         .preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -97,7 +95,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 24px 5%;
-            background: rgba(5,5,5,0.85); /* Glass effect */
+            background: rgba(5,5,5,0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             position: sticky;
@@ -111,7 +109,6 @@
             font-size: 1.8rem;
             font-weight: 800;
             color: #fff;
-            /* Animated Shine */
             background: linear-gradient(90deg, #fff, #999, var(--gold), #fff);
             background-size: 300%;
             -webkit-background-clip: text;
@@ -164,7 +161,7 @@
             font-size: clamp(3rem, 7vw, 6rem);
             line-height: 1.1;
             margin-bottom: 20px;
-            opacity: 0; /* Hidden for animation */
+            opacity: 0;
             animation: fadeInUp 1s var(--ease-lux) 2.4s forwards;
         }
 
@@ -226,8 +223,8 @@
             transition: transform 0.4s var(--ease-lux), border-color 0.4s;
             transform-style: preserve-3d;
             perspective: 1000px;
+            cursor: pointer; /* UPDATED: Indicates clickable */
             
-            /* Scroll Reveal State */
             opacity: 0; 
             transform: translateY(40px);
             transition: opacity 0.8s ease, transform 0.8s var(--ease-lux);
@@ -331,7 +328,6 @@
         @media(max-width: 900px) {
             .container { grid-template-columns: 1fr; }
             .nav-links { display: none; }
-            /* Disable tilt on mobile for performance */
             .card { transform: none !important; }
         }
     </style>
@@ -366,7 +362,7 @@
         
         <div class="blog-grid">
             
-            <article class="card">
+            <article class="card" onclick="window.location.href='gpt5-architecture.html'">
                 <div class="card-img-wrap">
                     <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&fit=crop" class="card-img" alt="AI">
                 </div>
@@ -377,7 +373,7 @@
                 </div>
             </article>
 
-            <article class="card">
+            <article class="card" onclick="window.location.href='defi-vs-tradfi.html'">
                 <div class="card-img-wrap">
                     <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&fit=crop" class="card-img" alt="Crypto">
                 </div>
@@ -392,7 +388,7 @@
                 PREMIUM AD PLACEMENT
             </div>
 
-            <article class="card">
+            <article class="card" onclick="window.location.href='rust-production.html'">
                 <div class="card-img-wrap">
                     <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&fit=crop" class="card-img" alt="Code">
                 </div>
@@ -403,7 +399,7 @@
                 </div>
             </article>
 
-            <article class="card">
+            <article class="card" onclick="window.location.href='zero-trust.html'">
                 <div class="card-img-wrap">
                     <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&fit=crop" class="card-img" alt="Security">
                 </div>
@@ -413,6 +409,18 @@
                     <p>The enterprise guide to securing internal tools without reliance on VPNs or legacy firewalls.</p>
                 </div>
             </article>
+
+            <article class="card" onclick="window.location.href='future-internships.html'">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&fit=crop" class="card-img" alt="Internship">
+                </div>
+                <div class="card-content">
+                    <span class="tag">Career</span>
+                    <h3>Is AI Killing Internships?</h3>
+                    <p>Entry-level tasks are disappearing. Here is what students need to learn to survive the AI shift.</p>
+                </div>
+            </article>
+
         </div>
 
         <aside>
@@ -445,37 +453,31 @@
     </footer>
 
     <script>
-        // 1. SCROLL REVEAL OBSERVER
-        // This watches for elements entering the screen and adds the 'visible' class
+        // 1. SCROLL REVEAL
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 }); // Trigger when 10% visible
+        }, { threshold: 0.1 });
 
-        // Observe cards and sidebar
         document.querySelectorAll('.card, .profile-widget').forEach(el => observer.observe(el));
 
-
-        // 2. SCROLL PROGRESS BAR
+        // 2. SCROLL PROGRESS
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById("progressBar").style.width = scrolled + "%";
             
-            // Parallax Hero Effect
             const heroContent = document.querySelector('.hero h1');
             if(window.scrollY < window.innerHeight) {
                 heroContent.style.transform = `translateY(${window.scrollY * 0.4}px)`;
             }
         });
 
-
-        // 3. 3D TILT EFFECT (Mouse Tracking)
-        // Adds a subtle 3D tilt to cards on desktop
+        // 3. 3D TILT EFFECT
         const cards = document.querySelectorAll('.card');
         if (window.matchMedia("(min-width: 900px)").matches) {
             cards.forEach(card => {
@@ -485,22 +487,17 @@
                     const y = e.clientY - rect.top;
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
-                    
-                    // Rotation calculation
                     const rotateX = ((y - centerY) / 25) * -1;
                     const rotateY = (x - centerX) / 25;
-
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
                 });
-
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
                 });
             });
         }
 
-
-        // 4. PARTICLE BACKGROUND (Canvas)
+        // 4. PARTICLE BACKGROUND
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -531,7 +528,6 @@
         }
         
         function initParticles() {
-            // Limit to 60 particles for performance
             for(let i=0; i<60; i++) particles.push(new Particle());
         }
         
@@ -544,11 +540,4 @@
         initParticles();
         animateParticles();
         
-        // Handle Resize
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-</body>
-</htm
+        window.addEventListener('resi
