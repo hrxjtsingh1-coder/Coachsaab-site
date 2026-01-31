@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article | CoachSaab</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. SHARED PREMIUM STYLES (Matches Home) --- */
+        :root {
+            --bg-deep: #050505;
+            --bg-card: #0e0e0e;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --gold: #D4AF37;
+            --accent-blue: #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Reading Progress Bar */
+        .read-progress {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: var(--gold);
+            width: 0%; z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        /* Nav (Simplified for Reading) */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: rgba(5,5,5,0.9); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-family: 'Space Grotesk'; font-weight: 800; font-size: 1.5rem; color: #fff; text-decoration: none; }
+        .back-btn { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: 0.3s; display: flex; align-items: center; gap: 8px;}
+        .back-btn:hover { color: var(--gold); }
+
+        /* --- 2. ARTICLE HEADER --- */
+        .article-hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .category { color: var(--gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 20px; display: block; }
+        
+        h1 {
+            font-family: 'Space Grotesk';
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(180deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meta {
+            display: flex; justify-content: center; align-items: center; gap: 20px;
+            color: var(--text-muted); font-size: 0.9rem;
+        }
+        .meta img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); }
+
+        /* Featured Image */
+        .featured-img-container {
+            width: 100%; max-width: 1000px; margin: 0 auto 60px;
+            border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .featured-img { width: 100%; height: auto; display: block; }
+
+        /* --- 3. ARTICLE CONTENT (The Reading Experience) --- */
+        .content-wrapper {
+            max-width: 740px; /* Optimal reading width */
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 1.1rem;
+            color: #d4d4d4;
+        }
+
+        .content-wrapper p { margin-bottom: 30px; }
+        
+        .content-wrapper h2 {
+            font-family: 'Space Grotesk'; font-size: 2rem; color: #fff;
+            margin: 50px 0 20px; border-left: 4px solid var(--gold); padding-left: 20px;
+        }
+
+        .content-wrapper ul { margin-bottom: 30px; padding-left: 20px; }
+        .content-wrapper li { margin-bottom: 10px; list-style-type: square; marker: var(--gold); }
+
+        /* Code Block Styling */
+        pre {
+            background: #111; border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; border-radius: 10px; overflow-x: auto;
+            margin-bottom: 30px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 30px; border-radius: 12px;
+            margin: 40px 0;
+            position: relative;
+        }
+        .highlight-box::before { content: "💡 KEY TAKEAWAY"; position: absolute; top: -12px; left: 20px; background: var(--bg-deep); padding: 0 10px; color: var(--gold); font-size: 0.75rem; font-weight: 700; }
+
+        /* --- 4. FOOTER / NEXT READ --- */
+        .next-read {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 100px; padding-top: 60px;
+            text-align: center;
+        }
+        .next-btn {
+            display: inline-block; padding: 15px 40px;
+            background: #fff; color: #000; border-radius: 50px;
+            text-decoration: none; font-weight: 700; margin-top: 20px;
+            transition: 0.3s;
+        }
+        .next-btn:hover { transform: scale(1.05); background: var(--gold); }
+
+        footer { text-align: center; padding: 80px 0; color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Mobile */
+        @media(max-width: 768px) { h1 { font-size: 2.5rem; } }
+    </style>
+</head>
+<body>
+
+    <div class="read-progress" id="bar"></div>
+
+    <nav>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+        <a href="index.html" class="logo">Coach<span>Saab.</span></a>
+    </nav>
+
+    <header class="article-hero">
+        <span class="category">AI & ARCHITECTURE</span>
+        <h1>GPT-5: The Technical Breakdown & What We Know</h1>
+        <div class="meta">
+            <img src="https://raw.githubusercontent.com/hrxjtsingh1-coder/Coachsaab-site/refs/heads/main/Screenshot_20260131-114733.Moto%20App%20Launcher%7E2.png" alt="Coach Saab">
+            <div>
+                <p style="color:#fff; font-weight:700; line-height:1;">Coach Saab</p>
+                <p style="font-size:0.8rem;">Feb 2, 2026 • 8 min read</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="featured-img-container">
+        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&auto=format&fit=crop" alt="AI Feature" class="featured-img">
+    </div>
+
+    <article class="content-wrapper">
+        <p class="intro">Everyone is talking about AGI, but as developers, we care about the specs. Here is the deep technical dive into what the leaked papers suggest about the next generation of models.</p>
+
+        <h2>1. Multi-Modal Native Training</h2>
+        <p>Unlike previous iterations where vision was bolted on after training, the new architecture suggests a fully native multi-modal approach. This means the model "thinks" in images as fluently as it thinks in text.</p>
+        
+        <div class="highlight-box">
+            The latency for image-to-text processing is expected to drop by 40% due to this unified architecture.
+        </div>
+
+        <h2>2. The Context Window Expansion</h2>
+        <p>Rumors point to a 1M token context window becoming the standard tier. For engineers, this changes everything regarding RAG (Retrieval Augmented Generation) pipelines.</p>
+        
+        <pre><code>// Old RAG Pipeline
+const context = retrieve(chunks, 5); // Limited context
+
+// New Context-Native approach
+const fullDocs = loadEntireDocumentation(); // Pass everything
+const response = await model.generate(fullDocs, query);</code></pre>
+
+        <p>This allows us to dump entire codebases into the prompt without worrying about losing the "needle in the haystack."</p>
+
+        <h2>3. Conclusion</h2>
+        <p>The landscape is shifting. If you are building wrappers today, you might be obsolete tomorrow. The value is moving up the stack into complex agentic workflows.</p>
+    </article>
+
+    <section class="next-read">
+        <p style="color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; font-size:0.8rem; font-weight:700;">READ NEXT</p>
+        <h3 style="font-family:'Space Grotesk'; font-size:2rem; color:#fff; margin:10px 0;">Why Rust is Taking Over AI Infra</h3>
+        <a href="#" class="next-btn">Read Article →</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 CoachSaab Media.</p>
+    </footer>
+
+    <script>
+        // Simple Scroll Progress Logic
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("bar").style.width = scrolled + "%";
+        };
+    </script>
+
+</body>
+  </html>
+
