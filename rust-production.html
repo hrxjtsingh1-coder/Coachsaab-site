@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust in Production | CoachSaab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-deep: #050505; --text-main: #fff; --gold: #D4AF37; }
+        body { background: var(--bg-deep); color: var(--text-main); font-family: 'Outfit', sans-serif; line-height: 1.8; margin: 0; }
+        .read-progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--gold); width: 0%; z-index: 9999; }
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(5,5,5,0.9); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222; }
+        .logo { font-family: 'Space Grotesk'; font-weight: 800; color: #fff; text-decoration: none; font-size: 1.5rem; }
+        .article-hero { text-align: center; padding: 60px 20px; max-width: 800px; margin: 0 auto; }
+        h1 { font-family: 'Space Grotesk'; font-size: clamp(2.5rem, 5vw, 4rem); color: #fff; }
+        .feat-img { width: 100%; max-width: 1000px; margin: 0 auto 50px; display: block; border-radius: 12px; }
+        .content { max-width: 700px; margin: 0 auto; padding: 0 20px; color: #d4d4d4; }
+        .content h2 { font-family: 'Space Grotesk'; color: #fff; margin-top: 40px; border-left: 3px solid var(--gold); padding-left: 15px; }
+        .ad-space { background: #111; border: 1px dashed #333; color: #555; display: flex; align-items: center; justify-content: center; height: 120px; margin: 40px 0; border-radius: 8px; }
+        footer { text-align: center; padding: 60px 0; border-top: 1px solid #222; margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <div class="read-progress" id="bar"></div>
+    <nav>
+        <a href="index.html" style="color:#888; text-decoration:none;">← Back</a>
+        <a href="index.html" class="logo">Coach<span>Saab.</span></a>
+    </nav>
+
+    <header class="article-hero">
+        <span style="color:var(--gold); font-weight:700; letter-spacing:2px;">ENGINEERING</span>
+        <h1>Why We Switched to Rust</h1>
+        <p style="color:#888;">Jan 28, 2026 • Coach Saab</p>
+    </header>
+
+    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=1200&fit=crop" class="feat-img">
+
+    <article class="content">
+        <p>Python is great for prototyping. But when you are serving millions of inference requests, Python is expensive.</p>
+
+        <div class="ad-space">ADVERTISEMENT SPACE 1</div>
+
+        <h2>Memory Safety</h2>
+        <p>Rust's borrow checker ensures memory safety without a garbage collector. This eliminates an entire class of bugs that plague C++ systems.</p>
+
+        <h2>The Cost Benefit</h2>
+        <p>By rewriting our core inference engine in Rust, we reduced our AWS EC2 bill by 60%. The servers run cooler, faster, and crash less.</p>
+
+        <div class="ad-space">ADVERTISEMENT SPACE 2</div>
+
+        <h2>Is it hard to learn?</h2>
+        <p>Yes. But it is worth it. The learning curve is steep, but the salary premium for Rust developers is real.</p>
+
+        <div class="ad-space">ADVERTISEMENT SPACE 3</div>
+    </article>
+
+    <footer><p>&copy; 2026 CoachSaab Media.</p></footer>
+    <script>window.onscroll=function(){document.getElementById("bar").style.width=((document.body.scrollTop||document.documentElement.scrollTop)/(document.documentElement.scrollHeight-document.documentElement.clientHeight)*100)+"%";};</script>
+</body>
+</html>
+
