@@ -6,56 +6,83 @@
     <title>Rust in Production | CoachSaab</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-deep: #050505; --text-main: #fff; --gold: #D4AF37; }
-        body { background: var(--bg-deep); color: var(--text-main); font-family: 'Outfit', sans-serif; line-height: 1.8; margin: 0; }
+        :root { --bg-deep: #050505; --text-main: #fff; --text-muted: #a0a0a0; --gold: #D4AF37; }
+        body { background: var(--bg-deep); color: var(--text-main); font-family: 'Outfit', sans-serif; line-height: 1.8; margin: 0; overflow-x: hidden; }
         .read-progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--gold); width: 0%; z-index: 9999; }
-        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(5,5,5,0.9); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222; }
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(5,5,5,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { font-family: 'Space Grotesk'; font-weight: 800; color: #fff; text-decoration: none; font-size: 1.5rem; }
-        .article-hero { text-align: center; padding: 60px 20px; max-width: 800px; margin: 0 auto; }
-        h1 { font-family: 'Space Grotesk'; font-size: clamp(2.5rem, 5vw, 4rem); color: #fff; }
-        .feat-img { width: 100%; max-width: 1000px; margin: 0 auto 50px; display: block; border-radius: 12px; }
-        .content { max-width: 700px; margin: 0 auto; padding: 0 20px; color: #d4d4d4; }
-        .content h2 { font-family: 'Space Grotesk'; color: #fff; margin-top: 40px; border-left: 3px solid var(--gold); padding-left: 15px; }
-        .ad-space { background: #111; border: 1px dashed #333; color: #555; display: flex; align-items: center; justify-content: center; height: 120px; margin: 40px 0; border-radius: 8px; }
-        footer { text-align: center; padding: 60px 0; border-top: 1px solid #222; margin-top: 60px; }
+        .logo span { color: var(--gold); }
+        .back-btn { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .back-btn:hover { color: #fff; }
+        .article-hero { text-align: center; padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+        h1 { font-family: 'Space Grotesk'; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px; color: #fff; line-height: 1.1; }
+        .feat-img { width: 100%; max-width: 1000px; margin: 0 auto 50px; display: block; border-radius: 12px; border: 1px solid #222; }
+        .content { max-width: 740px; margin: 0 auto; padding: 0 20px 100px; color: #d4d4d4; font-size: 1.15rem; }
+        .content p { margin-bottom: 25px; }
+        .content h2 { font-family: 'Space Grotesk'; color: #fff; margin-top: 50px; margin-bottom: 20px; border-left: 3px solid var(--gold); padding-left: 15px; font-size: 1.8rem; }
+        .ad-space { background: transparent; border: none; min-height: 100px; margin: 50px 0; display: flex; justify-content: center; }
+        footer { text-align: center; padding: 60px 0; border-top: 1px solid #222; color: #666; }
     </style>
 </head>
 <body>
     <div class="read-progress" id="bar"></div>
     <nav>
-        <a href="index.html" style="color:#888; text-decoration:none;">← Back</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
         <a href="index.html" class="logo">Coach<span>Saab.</span></a>
     </nav>
 
     <header class="article-hero">
-        <span style="color:var(--gold); font-weight:700; letter-spacing:2px;">ENGINEERING</span>
-        <h1>Why We Switched to Rust</h1>
-        <p style="color:#888;">Jan 28, 2026 • Coach Saab</p>
+        <span style="color:var(--gold); font-weight:700; letter-spacing:2px; font-size:0.9rem;">DEVOPS ENGINEERING</span>
+        <h1>Why We Rewrote Our Core Engine in Rust</h1>
+        <p style="color:var(--text-muted);">Jan 28, 2026 • Coach Saab • 10 min read</p>
     </header>
 
-    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=1200&fit=crop" class="feat-img">
+    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=1200&fit=crop" class="feat-img" alt="Rust Code">
 
     <article class="content">
-        <p>Python is great for prototyping. But when you are serving millions of inference requests, Python is expensive.</p>
+        <p>Python is the king of AI prototyping. It is easy to write, has massive libraries, and everyone knows it. But when you move to production—serving millions of requests per minute—Python becomes expensive.</p>
+        
+        <p>Here is the story of why our team made the painful but necessary decision to migrate our core inference engine from Python to Rust, and why it saved us 60% on our cloud bill.</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 1</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
 
-        <h2>Memory Safety</h2>
-        <p>Rust's borrow checker ensures memory safety without a garbage collector. This eliminates an entire class of bugs that plague C++ systems.</p>
+        <h2>1. The Memory Safety Guarantee</h2>
+        <p>In C++, you manage memory manually. One mistake, and you have a memory leak or a segfault. In Python, the Garbage Collector handles it, but at the cost of performance pauses.</p>
+        <p>Rust offers a third way: <strong>Ownership and Borrowing</strong>. The compiler ensures memory safety at compile time. This means zero runtime overhead for garbage collection and zero chance of null pointer exceptions. Our system stability went from 99.9% to 99.999% overnight.</p>
 
-        <h2>The Cost Benefit</h2>
-        <p>By rewriting our core inference engine in Rust, we reduced our AWS EC2 bill by 60%. The servers run cooler, faster, and crash less.</p>
+        <h2>2. Fearless Concurrency</h2>
+        <p>AI workloads are heavily parallel. Python's Global Interpreter Lock (GIL) is a notorious bottleneck for multi-threaded applications. To get around it, you have to use complex multi-processing workarounds.</p>
+        <p>Rust allows for "Fearless Concurrency." We were able to saturate all 64 cores of our AWS Graviton instances without race conditions. The throughput increase was staggering.</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 2</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
 
-        <h2>Is it hard to learn?</h2>
-        <p>Yes. But it is worth it. The learning curve is steep, but the salary premium for Rust developers is real.</p>
+        <h2>3. The Financial Impact</h2>
+        <p>This isn't just about code purity; it's about money. Because Rust is so efficient, we were able to downgrade our server fleet.</p>
+        <p>We moved from expensive `p4d.24xlarge` instances to smaller clusters, reducing our monthly AWS bill by nearly 60%. In this economy, efficiency is the best feature you can ship.</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 3</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
     </article>
 
-    <footer><p>&copy; 2026 CoachSaab Media.</p></footer>
-    <script>window.onscroll=function(){document.getElementById("bar").style.width=((document.body.scrollTop||document.documentElement.scrollTop)/(document.documentElement.scrollHeight-document.documentElement.clientHeight)*100)+"%";};</script>
+    <footer>
+        <p>&copy; 2026 CoachSaab Media.</p>
+    </footer>
+
+    <script>
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("bar").style.width = scrolled + "%";
+        };
+    </script>
 </body>
 </html>
-
