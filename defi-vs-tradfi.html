@@ -6,56 +6,83 @@
     <title>DeFi vs TradFi | CoachSaab</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Shared Styles included for standalone function */
-        :root { --bg-deep: #050505; --text-main: #fff; --gold: #D4AF37; }
-        body { background: var(--bg-deep); color: var(--text-main); font-family: 'Outfit', sans-serif; line-height: 1.8; margin: 0; }
+        :root { --bg-deep: #050505; --text-main: #fff; --text-muted: #a0a0a0; --gold: #D4AF37; }
+        body { background: var(--bg-deep); color: var(--text-main); font-family: 'Outfit', sans-serif; line-height: 1.8; margin: 0; overflow-x: hidden; }
         .read-progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--gold); width: 0%; z-index: 9999; }
-        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(5,5,5,0.9); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222; }
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(5,5,5,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { font-family: 'Space Grotesk'; font-weight: 800; color: #fff; text-decoration: none; font-size: 1.5rem; }
-        .article-hero { text-align: center; padding: 60px 20px; max-width: 800px; margin: 0 auto; }
-        h1 { font-family: 'Space Grotesk'; font-size: clamp(2.5rem, 5vw, 4rem); color: #fff; }
-        .feat-img { width: 100%; max-width: 1000px; margin: 0 auto 50px; display: block; border-radius: 12px; }
-        .content { max-width: 700px; margin: 0 auto; padding: 0 20px; color: #d4d4d4; }
-        .content h2 { font-family: 'Space Grotesk'; color: #fff; margin-top: 40px; border-left: 3px solid var(--gold); padding-left: 15px; }
-        .ad-space { background: #111; border: 1px dashed #333; color: #555; display: flex; align-items: center; justify-content: center; height: 120px; margin: 40px 0; border-radius: 8px; }
-        footer { text-align: center; padding: 60px 0; border-top: 1px solid #222; margin-top: 60px; }
+        .logo span { color: var(--gold); }
+        .back-btn { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .back-btn:hover { color: #fff; }
+        .article-hero { text-align: center; padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+        h1 { font-family: 'Space Grotesk'; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px; color: #fff; line-height: 1.1; }
+        .feat-img { width: 100%; max-width: 1000px; margin: 0 auto 50px; display: block; border-radius: 12px; border: 1px solid #222; }
+        .content { max-width: 740px; margin: 0 auto; padding: 0 20px 100px; color: #d4d4d4; font-size: 1.15rem; }
+        .content p { margin-bottom: 25px; }
+        .content h2 { font-family: 'Space Grotesk'; color: #fff; margin-top: 50px; margin-bottom: 20px; border-left: 3px solid var(--gold); padding-left: 15px; font-size: 1.8rem; }
+        .ad-space { background: transparent; border: none; min-height: 100px; margin: 50px 0; display: flex; justify-content: center; }
+        footer { text-align: center; padding: 60px 0; border-top: 1px solid #222; color: #666; }
     </style>
 </head>
 <body>
     <div class="read-progress" id="bar"></div>
     <nav>
-        <a href="index.html" style="color:#888; text-decoration:none;">← Back</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
         <a href="index.html" class="logo">Coach<span>Saab.</span></a>
     </nav>
 
     <header class="article-hero">
-        <span style="color:var(--gold); font-weight:700; letter-spacing:2px;">MARKETS</span>
-        <h1>DeFi vs TradFi: The Institutional Shift</h1>
-        <p style="color:#888;">Feb 1, 2026 • Coach Saab</p>
+        <span style="color:var(--gold); font-weight:700; letter-spacing:2px; font-size:0.9rem;">FINANCIAL MARKETS</span>
+        <h1>DeFi vs TradFi: The Great Institutional Shift</h1>
+        <p style="color:var(--text-muted);">Feb 1, 2026 • Coach Saab • 6 min read</p>
     </header>
 
-    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&fit=crop" class="feat-img">
+    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&fit=crop" class="feat-img" alt="Crypto Charts">
 
     <article class="content">
-        <p>Wall Street is no longer ignoring decentralized finance. They are buying it.</p>
+        <p>For years, Wall Street laughed at Bitcoin. Then they ignored Ethereum. Now? They are buying it all. The lines between Traditional Finance (TradFi) and Decentralized Finance (DeFi) are blurring faster than anyone predicted.</p>
+        
+        <p>We are witnessing the "Tokenization of Everything." But why is this happening now, and what does it mean for your portfolio?</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 1</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
 
-        <h2>Why the shift?</h2>
-        <p>Settlement speed. TradFi takes T+2 days to settle stock trades. DeFi creates instant finality. This saves billions in collateral requirements.</p>
+        <h2>1. Settlement Speed is Money</h2>
+        <p>In the traditional banking world, if you sell a stock on Monday, you don't actually get the money until Wednesday (T+2 settlement). This inefficiency traps trillions of dollars in "collateral limbo."</p>
+        <p>DeFi solves this with <strong>atomic settlement</strong>. The moment the trade executes, the assets swap. BlackRock and J.P. Morgan aren't interested in the culture of crypto; they are interested in the efficiency. Saving 48 hours on settlement saves them billions in operational costs.</p>
 
-        <h2>Real World Assets (RWA)</h2>
-        <p>The tokenization of real estate and bonds is the next 10 Trillion dollar opportunity. BlackRock is already moving.</p>
+        <h2>2. Real World Assets (RWA)</h2>
+        <p>The next bull run won't be driven by meme coins; it will be driven by RWAs. We are seeing US Treasury Bonds, real estate, and private credit being tokenized on Ethereum.</p>
+        <p>Imagine being able to trade a fraction of a Manhattan skyscraper as easily as you trade an Apple stock, 24/7, without a broker. That is the promise of RWA.</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 2</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
 
-        <h2>What should you do?</h2>
-        <p>Learn Solidity or Rust. The developers building the bridges between banks and blockchains will be the highest paid engineers of the decade.</p>
+        <h2>3. The Developer Opportunity</h2>
+        <p>For engineers, this is a call to action. Solidity and Rust (for Solana) are becoming the "Financial C++" of the future.</p>
+        <p>The banks need builders who understand both the regulatory constraints of TradFi and the technical composability of DeFi. If you can bridge these two worlds, your career is future-proofed.</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 3</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
     </article>
 
-    <footer><p>&copy; 2026 CoachSaab Media.</p></footer>
-    <script>window.onscroll=function(){document.getElementById("bar").style.width=((document.body.scrollTop||document.documentElement.scrollTop)/(document.documentElement.scrollHeight-document.documentElement.clientHeight)*100)+"%";};</script>
+    <footer>
+        <p>&copy; 2026 CoachSaab Media.</p>
+    </footer>
+
+    <script>
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("bar").style.width = scrolled + "%";
+        };
+    </script>
 </body>
 </html>
