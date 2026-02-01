@@ -18,7 +18,7 @@
             --text-muted: #9ca3af;
             --gold: #D4AF37;
             --gold-glow: rgba(212, 175, 55, 0.3);
-            --ease-lux: cubic-bezier(0.215, 0.61, 0.355, 1);
+            --ease-lux: cubic-bezier(0.215, 0.61, 0.355, 1); /* Premium "Apple-style" easing */
         }
 
         /* --- 2. BASE STYLES --- */
@@ -41,7 +41,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             opacity: 0.04;
-            z-index: 0; /* Sent to back */
+            z-index: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
@@ -52,6 +52,7 @@
             background: linear-gradient(90deg, var(--gold), #fff);
             width: 0%;
             z-index: 9999;
+            transition: width 0.1s linear;
         }
 
         /* --- 3. LOADER (CSS ONLY - NO JS DEPENDENCY) --- */
@@ -60,7 +61,6 @@
             background: #000;
             z-index: 5000;
             display: flex; align-items: center; justify-content: center;
-            /* Force hide after 2.5s */
             animation: dissolve 0.5s ease 2.0s forwards;
             pointer-events: all;
         }
@@ -102,7 +102,6 @@
         }
         .hero h1 {
             font-family: 'Space Grotesk'; font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.1; margin-bottom: 20px;
-            /* Auto-Run Animation */
             animation: slideUp 0.8s var(--ease-lux) 2.2s backwards;
         }
         .hero p {
@@ -125,25 +124,22 @@
         .container {
             max-width: 1300px; margin: 0 auto; padding: 60px 20px;
             display: grid; grid-template-columns: 2fr 1fr; gap: 50px;
-            position: relative; z-index: 5; /* Ensure above noise */
+            position: relative; z-index: 5;
         }
         .blog-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;
         }
 
-        /* --- 7. CARDS (VISIBLE BY DEFAULT + ANIMATION) --- */
+        /* --- 7. CARDS --- */
         .card {
             background: var(--bg-card);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px; overflow: hidden;
             cursor: pointer;
             transition: transform 0.3s, border-color 0.3s;
-            
-            /* KEY FIX: Opacity 1 by default, use animation to 'appear' */
             animation: cardAppear 0.8s var(--ease-lux) backwards;
         }
         
-        /* Staggered Animations */
         .card:nth-child(1) { animation-delay: 2.5s; }
         .card:nth-child(2) { animation-delay: 2.6s; }
         .card:nth-child(3) { animation-delay: 2.7s; }
@@ -175,8 +171,6 @@
             background: linear-gradient(145deg, rgba(255,255,255,0.03), #000);
             border: 1px solid rgba(255,255,255,0.08);
             padding: 30px; border-radius: 20px; text-align: center;
-            
-            /* Sidebar Animation */
             animation: cardAppear 0.8s var(--ease-lux) 3.0s backwards;
         }
         .avatar-wrap {
@@ -200,7 +194,7 @@
         @media(max-width: 900px) {
             .container { grid-template-columns: 1fr; }
             .nav-links { display: none; }
-            .hero h1 { font-size: 3rem; }
+            .card { transform: none !important; }
         }
     </style>
 </head>
@@ -256,8 +250,9 @@
                 </div>
             </article>
 
-            <div class="ad-space" style="grid-column: 1/-1; height: 100px; margin: 10px 0;">
-                PREMIUM AD PLACEMENT
+            <div class="ad-space" style="grid-column: 1/-1; height: auto; border: none; background: transparent; margin: 10px 0;">
+                <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+                <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
             </div>
 
             <article class="card" onclick="window.location.href='rust-production.html'">
