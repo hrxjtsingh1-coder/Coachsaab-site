@@ -6,55 +6,83 @@
     <title>Zero Trust Security | CoachSaab</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-deep: #050505; --text-main: #fff; --gold: #D4AF37; }
-        body { background: var(--bg-deep); color: var(--text-main); font-family: 'Outfit', sans-serif; line-height: 1.8; margin: 0; }
+        :root { --bg-deep: #050505; --text-main: #fff; --text-muted: #a0a0a0; --gold: #D4AF37; }
+        body { background: var(--bg-deep); color: var(--text-main); font-family: 'Outfit', sans-serif; line-height: 1.8; margin: 0; overflow-x: hidden; }
         .read-progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--gold); width: 0%; z-index: 9999; }
-        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(5,5,5,0.9); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222; }
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(5,5,5,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { font-family: 'Space Grotesk'; font-weight: 800; color: #fff; text-decoration: none; font-size: 1.5rem; }
-        .article-hero { text-align: center; padding: 60px 20px; max-width: 800px; margin: 0 auto; }
-        h1 { font-family: 'Space Grotesk'; font-size: clamp(2.5rem, 5vw, 4rem); color: #fff; }
-        .feat-img { width: 100%; max-width: 1000px; margin: 0 auto 50px; display: block; border-radius: 12px; }
-        .content { max-width: 700px; margin: 0 auto; padding: 0 20px; color: #d4d4d4; }
-        .content h2 { font-family: 'Space Grotesk'; color: #fff; margin-top: 40px; border-left: 3px solid var(--gold); padding-left: 15px; }
-        .ad-space { background: #111; border: 1px dashed #333; color: #555; display: flex; align-items: center; justify-content: center; height: 120px; margin: 40px 0; border-radius: 8px; }
-        footer { text-align: center; padding: 60px 0; border-top: 1px solid #222; margin-top: 60px; }
+        .logo span { color: var(--gold); }
+        .back-btn { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .back-btn:hover { color: #fff; }
+        .article-hero { text-align: center; padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+        h1 { font-family: 'Space Grotesk'; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px; color: #fff; line-height: 1.1; }
+        .feat-img { width: 100%; max-width: 1000px; margin: 0 auto 50px; display: block; border-radius: 12px; border: 1px solid #222; }
+        .content { max-width: 740px; margin: 0 auto; padding: 0 20px 100px; color: #d4d4d4; font-size: 1.15rem; }
+        .content p { margin-bottom: 25px; }
+        .content h2 { font-family: 'Space Grotesk'; color: #fff; margin-top: 50px; margin-bottom: 20px; border-left: 3px solid var(--gold); padding-left: 15px; font-size: 1.8rem; }
+        .ad-space { background: transparent; border: none; min-height: 100px; margin: 50px 0; display: flex; justify-content: center; }
+        footer { text-align: center; padding: 60px 0; border-top: 1px solid #222; color: #666; }
     </style>
 </head>
 <body>
     <div class="read-progress" id="bar"></div>
     <nav>
-        <a href="index.html" style="color:#888; text-decoration:none;">← Back</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
         <a href="index.html" class="logo">Coach<span>Saab.</span></a>
     </nav>
 
     <header class="article-hero">
-        <span style="color:var(--gold); font-weight:700; letter-spacing:2px;">SECURITY</span>
-        <h1>Zero Trust: The End of the VPN</h1>
-        <p style="color:#888;">Jan 25, 2026 • Coach Saab</p>
+        <span style="color:var(--gold); font-weight:700; letter-spacing:2px; font-size:0.9rem;">CYBERSECURITY</span>
+        <h1>Zero Trust Architecture: The End of the Corporate VPN</h1>
+        <p style="color:var(--text-muted);">Jan 25, 2026 • Coach Saab • 7 min read</p>
     </header>
 
-    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&fit=crop" class="feat-img">
+    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&fit=crop" class="feat-img" alt="Digital Lock">
 
     <article class="content">
-        <p>The old model of "castle and moat" security is dead. Once a hacker is inside the VPN, they have the keys to the kingdom. Zero Trust changes that.</p>
+        <p>The traditional "Castle and Moat" security model is dead. For decades, companies built a strong perimeter (firewalls) and assumed everything inside the network was safe. This created a soft, chewy center that hackers love.</p>
+        
+        <p>Once an attacker breached the VPN via a phishing email, they had the keys to the kingdom. Zero Trust Architecture (ZTA) changes the paradigm completely: <strong>Never Trust, Always Verify.</strong></p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 1</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
 
-        <h2>Never Trust, Always Verify</h2>
-        <p>In a Zero Trust architecture, every request is authenticated. It doesn't matter if you are the CEO or an intern, or if you are in the office or at Starbucks.</p>
+        <h2>1. Identity is the New Perimeter</h2>
+        <p>In a Zero Trust world, your IP address doesn't matter. Being "in the office" doesn't matter. What matters is <strong>Identity</strong>.</p>
+        <p>Access is granted based on who you are (Biometrics/MFA), what device you are using (Is it patched? Is it company managed?), and what you are trying to access. This granular control means that even if a hacker steals a password, they can't move laterally through the network.</p>
 
-        <h2>Identity is the New Perimeter</h2>
-        <p>We are moving away from IP addresses and towards strong identity verification using biometrics and hardware keys (YubiKeys).</p>
+        <h2>2. Moving Beyond the VPN</h2>
+        <p>VPNs are clunky, slow, and a security nightmare. Modern teams are moving to <strong>Identity Aware Proxies</strong> (like Cloudflare Access or Google BeyondCorp). </p>
+        <p>These tools allow employees to access internal dashboards securely over the public internet, without the friction of a VPN client. It feels like magic, but it is actually just rigorous authentication happening in the background.</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 2</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
 
-        <h2>Implementation</h2>
-        <p>Start with Cloudflare Access or Google BeyondCorp. Stop exposing your internal dashboards to the public internet.</p>
+        <h2>3. Implementation Guide</h2>
+        <p>You don't buy Zero Trust; you build it. Start by auditing your internal tools. Put your most critical assets behind an SSO (Single Sign-On) provider like Okta. Enforce hardware security keys (YubiKeys) for all admins.</p>
+        <p>It is a journey, but in 2026, it is the only responsible way to run a tech infrastructure.</p>
 
-        <div class="ad-space">ADVERTISEMENT SPACE 3</div>
+        <div class="ad-space">
+            <script async="async" data-cfasync="false" src="https://pl28622426.effectivegatecpm.com/946611c7980bf9bddd66bdc01bc04061/invoke.js"></script>
+            <div id="container-946611c7980bf9bddd66bdc01bc04061"></div>
+        </div>
     </article>
 
-    <footer><p>&copy; 2026 CoachSaab Media.</p></footer>
-    <script>window.onscroll=function(){document.getElementById("bar").style.width=((document.body.scrollTop||document.documentElement.scrollTop)/(document.documentElement.scrollHeight-document.documentElement.clientHeight)*100)+"%";};</script>
+    <footer>
+        <p>&copy; 2026 CoachSaab Media.</p>
+    </footer>
+
+    <script>
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("bar").style.width = scrolled + "%";
+        };
+    </script>
 </body>
 </html>
